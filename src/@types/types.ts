@@ -15,7 +15,7 @@ export interface RegisterData {
     name: string;
     email: string;
     password: string;
-    confirmPassword?: string; // Optional for frontend validation
+    confirmPassword: string; 
 }
 
 
