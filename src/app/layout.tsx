@@ -46,6 +46,7 @@ import {
   DM_Sans, 
 } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 // import { Toaster } from "sonner";
 // import QueryProvider from "@/components/providers/QueryProvider";
 // import { SessionProvider } from "next-auth/react";
@@ -169,12 +170,9 @@ export default function RootLayout({
       <body 
         className={`${outfit.variable} ${poppins.variable} ${afacad.variable} ${nunito.variable} ${lexend.variable} ${inter.variable} ${dmsans.variable} antialiased`}
       >
-
+        <Providers>
         {children}
-        {/* <SessionProvider>
-          <QueryProvider>{children}</QueryProvider>
-        </SessionProvider>
-        <Toaster richColors /> */}
+        </Providers>
       </body>
     </html>
   );
