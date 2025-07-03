@@ -1,7 +1,6 @@
 import * as React from "react"
 import { useFormContext } from "react-hook-form"
 
-const FormContext = React.createContext<any>(null)
 
 const Form = React.forwardRef<
   HTMLFormElement,
@@ -11,20 +10,34 @@ const Form = React.forwardRef<
 })
 Form.displayName = "Form"
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const FormFieldContext = React.createContext<any>(null)
 
-const FormField = ({
-  ...props
-}: {
-  name: string
-  children: React.ReactNode
-}) => {
+import { Controller, Control, FieldValues, ControllerRenderProps, Path } from "react-hook-form";
+
+type FormFieldProps<TFieldValues extends FieldValues = FieldValues> = {
+  control: Control<TFieldValues>;
+  name: Path<TFieldValues>;
+  render: (props: { field: ControllerRenderProps<TFieldValues, Path<TFieldValues>> }) => React.ReactNode;
+};
+
+const FormField = <TFieldValues extends FieldValues = FieldValues>({
+  control,
+  name,
+  render,
+}: FormFieldProps<TFieldValues>) => {
   return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
-      {props.children}
-    </FormFieldContext.Provider>
-  )
-}
+    <Controller
+      control={control}
+      name={name}
+      render={(fieldProps) => (
+        <FormFieldContext.Provider value={{ name }}>
+          {render(fieldProps)}
+        </FormFieldContext.Provider>
+      )}
+    />
+  );
+};
 
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)

@@ -15,7 +15,7 @@ export interface RegisterData {
     name: string;
     email: string;
     password: string;
-    confirmPassword: string; 
+    // confirmPassword: string; 
 }
 
 
@@ -243,5 +243,14 @@ export interface CreateBudgetRequest {
         method: string;
         enabled: boolean;
         threshold: number;
+    };
+}
+
+export interface ApiError {
+    response?: {
+        data?: {
+            errors?: { message: string; path: string[] }[];
+            message?: string;
+        };
     };
 }

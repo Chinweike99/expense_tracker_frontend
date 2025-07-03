@@ -1,6 +1,6 @@
 "use client";
 
-import { RegisterData } from "@/@types/types";
+import { RegisterData, ApiError } from "@/@types/types";
 import { useAuthStore } from "@/app/stores/auth.store";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -21,11 +21,12 @@ const signupSchema = z.object({
       .regex(/[a-z]/, "Password must contain at least one lowercase letter")
       .regex(/[0-9]/, "Password must contain at least one number")
       .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
-    confirmPassword: z.string()
-  }).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
+    // confirmPassword: z.string()
+  })
+//   .refine((data) => data.password === data.confirmPassword, {
+//     message: "Passwords don't match",
+//     path: ["confirmPassword"],
+//   });
 
 
 
@@ -34,7 +35,7 @@ export const RegisterPage = () => {
     const router = useRouter();
     const { register: signup, isLoading} = useAuthStore();
     const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const {
         register, 
@@ -49,10 +50,14 @@ export const RegisterPage = () => {
         try {
             await signup(data);
             router.push("/verify-email-notice")
-        } catch (error: any) {
-            if(error.response?.data?.errors){
-                error.response.data.errors.forEach((err: any) => {
-                    setError(error.path[0], {
+        } catch (error: unknown) {
+            const apiError = error as ApiError;
+            if(apiError.response?.data?.errors){
+                apiError.response.data.errors.forEach((err: { message: string; path: string[] }) => {
+                    const validFields = ["name", "email", "password", "root"] as const;
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const field = validFields.includes(err.path[0] as any) ? err.path[0] as "name" | "email" | "password" | "root" : "root";
+                    setError(field, {
                         type: 'manual',
                         message: err.message
                     })
@@ -60,9 +65,10 @@ export const RegisterPage = () => {
             }else {
                 setError("root", {
                     type: "manual",
-                    message: error.response?.data?.message || "Signup failed. Please try again"
+                    message: apiError.response?.data?.message || "Signup failed. Please try again"
                 });
             }
+            console.log(error)
         }
     }
 
@@ -71,9 +77,9 @@ export const RegisterPage = () => {
         setShowPassword(!showPassword);
     };
 
-    const toggleConfirmPasswordVisibility = () => {
-        setShowConfirmPassword(!showConfirmPassword);
-    };
+    // const toggleConfirmPasswordVisibility = () => {
+    //     setShowConfirmPassword(!showConfirmPassword);
+    // };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -170,7 +176,7 @@ export const RegisterPage = () => {
 
 
 
-            <div>
+            {/* <div>
               <label htmlFor="confirmPassword" className="text-[12px] ml-2 text-gray-600">
                 Confirm Password
               </label>
@@ -201,7 +207,7 @@ export const RegisterPage = () => {
               {errors.confirmPassword && (
                 <p className="mt-1 text-xs ml-2 text-red-600">{errors.confirmPassword.message}</p>
               )}
-            </div>
+            </div> */}
           </div>
 
           <div>

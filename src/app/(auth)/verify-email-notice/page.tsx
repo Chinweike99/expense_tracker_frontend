@@ -28,7 +28,7 @@ const VerifyEmailNotice = () => {
               </svg>
             </div>
             <p className="mt-4 text-center text-gray-600">
-              We've sent a verification link to your email address. Please check your inbox and click
+              We&apos;ve sent a verification link to your email address. Please check your inbox and click
               on the link to verify your account.
             </p>
             {/* <p className="mt-4 text-center text-sm text-gray-500">
