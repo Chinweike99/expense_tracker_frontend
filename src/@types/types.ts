@@ -60,6 +60,29 @@ export interface Transaction {
     updatedAt: string;
 }
 
+export interface RecurringTransaction {
+    id: string;
+    amount: number;
+    description: string;
+    type: TransactionType;
+    category: string; // Category ID
+    account: string; // Account ID
+    user: string; // User ID
+    tags: string[];
+    notes: string;
+    frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+    nextRecurringDate: string; // ISO date string
+    isActive: boolean; // Whether the recurring transaction is currently active
+    splitTransactions?: {
+        amount: number;
+        description: string;
+        userId: string;
+        paid: boolean;
+    }[];
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+}
+
 export interface CreateTransactionRequest {
     amount: number;
     description: string;
