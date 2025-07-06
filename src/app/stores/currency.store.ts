@@ -32,7 +32,8 @@ export const useCurrencyStore = create<CurrencyState>((set) => ({
     fetchCurrencies: async() => {
         set({isLoading: true});
         try {
-            const {data} = await api.get('/currencies');
+            const {data} = await api.get('/api/currencies');
+            console.log(data)
             set({
                 currencies: data,
                 primaryCurrency: data.find((c: Currency) => c.isPrimary) || null
@@ -48,6 +49,7 @@ export const useCurrencyStore = create<CurrencyState>((set) => ({
         try{
             const {data} = await api.post('/api/currencies', currency);
             set((state) => ({currencies: [...state.currencies, data]}))
+            console.log(data)
         }finally{
             set({isLoading: false})
         }
@@ -55,7 +57,7 @@ export const useCurrencyStore = create<CurrencyState>((set) => ({
     setPrimaryCurrency: async(id) => {
         set({ isLoading: true });
         try{
-            const { data } = await api.patch(`/currencies/${id}/set-primary`);
+            const { data } = await api.patch(`/api/currencies/${id}/set-primary`);
             set({
                 currencies: data,
                 primaryCurrency: data.find((c: Currency) => c.isPrimary) || null
@@ -67,7 +69,7 @@ export const useCurrencyStore = create<CurrencyState>((set) => ({
     updateExchangeRates: async() => {
         set({isLoading: true});
         try{
-            const { data } = await api.patch('/currencies/update-rates');
+            const { data } = await api.patch('/api/currencies/update-rates');
             set({ currencies: data});
         } finally {
             set({isLoading: false});
@@ -76,7 +78,7 @@ export const useCurrencyStore = create<CurrencyState>((set) => ({
     deleteCurrency: async(id) => {
         set({isLoading: true});
         try{
-             await api.delete(`/currencies/${id}`);
+             await api.delete(`/api/currencies/${id}`);
             set((state) => ({
                 currencies: state.currencies.filter((c) => c._id !== id)
             }))

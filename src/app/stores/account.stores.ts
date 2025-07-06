@@ -45,7 +45,7 @@ export const useAccountStore = create<AccountState>((set) => ({
     getAccount: async(id) => {
         set({isLoading: true});
         try {
-            const {data} = await api.get(`/accounts/${id}`);
+            const {data} = await api.get(`/api/accounts/${id}`);
             console.log(data)
             return data;
         } finally {
@@ -64,7 +64,7 @@ export const useAccountStore = create<AccountState>((set) => ({
     updateAccount: async(id, updates)=> {
         set({isLoading: true});
         try{
-            const {data} = await api.patch(`/accounts/${id}`, updates);
+            const {data} = await api.patch(`/api/accounts/${id}`, updates);
             set((state) => ({
                 accounts: state.accounts.map((acc) => (acc._id === id ? data : acc))
             }));
@@ -75,7 +75,7 @@ export const useAccountStore = create<AccountState>((set) => ({
     deleteAccount: async(id) => {
         set({isLoading: true});
         try{
-            await api.delete(`/accounts/${id}`);
+            await api.delete(`/api/accounts/${id}`);
             set((state) => ({
                 accounts: state.accounts.filter((acc) => acc._id !== id)
             }))
