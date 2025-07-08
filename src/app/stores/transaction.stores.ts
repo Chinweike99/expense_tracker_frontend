@@ -8,6 +8,7 @@ interface TransactionState {
     recurringTransactions: RecurringTransaction[]
     isLoading: boolean;
     error: string | null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fetchTransactions: (params?: Record<string, any>) => Promise<void>;
     fetchRecurringTransactions: () => Promise<void>;
     getTransaction: (id: string) => Promise<Transaction>;
@@ -57,7 +58,7 @@ export const useTransactionStore = create<TransactionState>((set) => ({
         try {
             const { data } = await api.get("/api/transactions", { params });
             set({transactions: data})
-        } catch (error) {
+        } catch {
             set({error: "Failed to fetch transactions"})
         }finally{
             set({isLoading: false})
@@ -68,7 +69,7 @@ export const useTransactionStore = create<TransactionState>((set) => ({
     try {
       const { data } = await api.get("/api/transactions/recurring");
       set({ recurringTransactions: data });
-    } catch (error) {
+    } catch {
       set({ error: "Failed to fetch recurring transactions" });
     } finally {
       set({ isLoading: false });
@@ -95,7 +96,7 @@ export const useTransactionStore = create<TransactionState>((set) => ({
     updateTransaction: async(id, updates) => {
         set({isLoading: true});
         try{
-            const {data} = await api.patch(`/api/transactions/${id}`);
+            const {data} = await api.patch(`/api/transactions/${id}`, updates);
             set((state) => ({
                 transactions: state.transactions.map((t) => (t._id === id ? data : t))
             }))

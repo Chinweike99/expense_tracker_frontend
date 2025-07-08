@@ -1,7 +1,9 @@
 import { AccountForm } from "@/app/components/accounts/AccountForm";
-import CurrencyForm from "@/app/components/currencies/CurrencyForm";
-import CurrenciesPage from "../settings/currencies/page";
-import { TransactionForm } from "@/app/components/transactions/TransactionForm";
+// import CurrencyForm from "@/app/components/currencies/CurrencyForm";
+// import CurrenciesPage from "../settings/currencies/page";
+// import { TransactionForm } from "@/app/components/transactions/TransactionForm";
+// import { TransferForm } from "@/app/components/transactions/TransferForm";
+import { CategoryForm } from "@/app/components/categories/CategoryForm";
 
 export default function Dashboard() {
     return(
@@ -10,7 +12,9 @@ export default function Dashboard() {
             <AccountForm />
             {/*<CurrencyForm /> */}
             {/* <CurrenciesPage /> */}
-            <TransactionForm />
+            {/* <TransactionForm />
+            <TransferForm /> */}
+            <CategoryForm />
 
         </div>
     )

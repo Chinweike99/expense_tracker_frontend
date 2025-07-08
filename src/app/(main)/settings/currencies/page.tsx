@@ -17,7 +17,6 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 export default function CurrenciesPage() {
   const {
     currencies,
-    primaryCurrency,
     fetchCurrencies,
     setPrimaryCurrency,
     updateExchangeRates,

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -18,21 +18,7 @@ const VerifyEmailContent = () => {
     message: 'Verifying your email...'
   });
 
-  useEffect(() => {
-    const token = searchParams.get('token');
-    
-    if (!token) {
-      setVerificationState({
-        status: 'invalid',
-        message: 'Invalid verification link. No token provided.'
-      });
-      return;
-    }
-
-    verifyEmail(token);
-  }, [searchParams]);
-
-  const verifyEmail = async (token: string) => {
+  const verifyEmail = useCallback(async (token: string) => {
     try {
       const response = await fetch('/api/auth/verify-email', {
         method: 'POST',
@@ -80,7 +66,23 @@ const VerifyEmailContent = () => {
         message: 'Network error. Please check your connection and try again.'
       });
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    const token = searchParams.get('token');
+    
+    if (!token) {
+      setVerificationState({
+        status: 'invalid',
+        message: 'Invalid verification link. No token provided.'
+      });
+      return;
+    }
+
+    verifyEmail(token);
+  }, [searchParams, verifyEmail]);
+
+
 
   const resendVerificationEmail = async () => {
     try {

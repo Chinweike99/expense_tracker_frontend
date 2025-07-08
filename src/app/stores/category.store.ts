@@ -7,7 +7,12 @@ interface CategoryState {
     isLoading: boolean;
     error: string | null;
     fetchCategories: () => Promise<void>;
-    createCategory: (category: Omit<Category, "id">)=> Promise<void>;
+    createCategory: (category: {
+        name: string;
+    icon: string;
+    color: string;
+    type: "expense" | "income";
+    })=> Promise<void>;
     updateCategory: (id: string, updates: Partial<Category>) => Promise<void>;
     deleteCategory: (id: string) => Promise<void>;
     defaultCategories: () => Promise<void>;
@@ -22,7 +27,7 @@ export const useCategoryStore = create<CategoryState>((set) => ({
         try {
             const {data} = await api.get('/api/categories');
             set({categories: data})
-        } catch (error) {
+        } catch {
             set({error: "Failed to fetch catergories"});
         }finally{
             set({isLoading: false})
@@ -64,8 +69,8 @@ export const useCategoryStore = create<CategoryState>((set) => ({
     defaultCategories: async () => {
         set({ isLoading: true });
         try {
-          await api.post("/categories/seed-defaults");
-          const { data } = await api.get("/categories");
+          await api.post("/api/categories/seed-defaults");
+          const { data } = await api.get("/api/categories");
           set({ categories: data });
         } finally {
           set({ isLoading: false });

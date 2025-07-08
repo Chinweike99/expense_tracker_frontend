@@ -30,7 +30,7 @@ const signupSchema = z.object({
 
 
 
-export const RegisterPage = () => {
+export default function RegisterPage() {
     
     const router = useRouter();
     const { register: signup, isLoading} = useAuthStore();
@@ -251,3 +251,9 @@ export const RegisterPage = () => {
   );
 
 }
+
+
+// export default RegisterPage;
+
+
+
