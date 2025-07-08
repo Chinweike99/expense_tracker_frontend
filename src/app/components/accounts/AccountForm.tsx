@@ -142,7 +142,6 @@
 //   );
 // }
 
-
 "use client";
 import { useEffect } from "react"; // Add this import
 import { useForm } from "react-hook-form";
@@ -174,38 +173,8 @@ export function AccountForm({
   onSuccess?: () => void;
 }) {
   const { createAccount, updateAccount, isLoading } = useAccountStore();
-  const { 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    currencies, fetchCurrencies } = useCurrencyStore(); // Add fetchCurrencies
-  
+  const { currencies, fetchCurrencies } = useCurrencyStore(); // Add fetchCurrencies
+
   const {
     register,
     handleSubmit,
@@ -241,7 +210,10 @@ export function AccountForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           Account Name
         </label>
         <input
@@ -257,7 +229,10 @@ export function AccountForm({
       </div>
 
       <div>
-        <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor="type"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           Account Type
         </label>
         <select
@@ -277,7 +252,10 @@ export function AccountForm({
       </div>
 
       <div>
-        <label htmlFor="balance" className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor="balance"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           Initial Balance
         </label>
         <input
@@ -293,7 +271,10 @@ export function AccountForm({
       </div>
 
       <div>
-        <label htmlFor="currency" className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor="currency"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           Currency
         </label>
         <select
