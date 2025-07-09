@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react"
 import { useState } from "react";
+import Image from "next/image";
 
 
 
@@ -77,13 +78,26 @@ export default function RegisterPage() {
         setShowPassword(!showPassword);
     };
 
-    // const toggleConfirmPasswordVisibility = () => {
-    //     setShowConfirmPassword(!showConfirmPassword);
-    // };
+
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+<div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8 py-12">
+  <div className="max-w-[1440px] w-full flex flex-col md:flex-row gap-8 items-center justify-center">
+    
+    {/* Image: hidden on small screens, shown on md+ */}
+    <div className="hidden md:block md:w-1/2 lg:w-2/5">
+      <Image 
+        src='/register.jpg'
+        alt='Register'
+        className="w-full h-auto object-cover rounded-lg"
+        width={400}
+        height={256}
+        unoptimized 
+      />
+    </div>
+
+    <div className="w-full md:w-1/2 max-w-md px-4 sm:px-8">
+      <div className="w-full flex flex-col">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Create your account
@@ -105,7 +119,7 @@ export default function RegisterPage() {
             </div>
           </div>
         )}
-
+  
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="rounded-xl shadow-lg  p-6">
             <div>
@@ -246,6 +260,9 @@ export default function RegisterPage() {
             </button>
           </div>
         </form>
+
+        </div>
+        </div>
       </div>
     </div>
   );

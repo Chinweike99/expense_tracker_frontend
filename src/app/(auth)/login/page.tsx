@@ -8,6 +8,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 import * as z from 'zod';
+import Image from 'next/image';
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -53,9 +54,23 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
-                <div>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8 py-12">
+          <div className="max-w-[1440px] w-full flex flex-col md:flex-row gap-8 items-center justify-center">
+            
+            {/* Image: hidden on small screens, shown on md+ */}
+            <div className="hidden md:block md:w-1/2 lg:w-2/5">
+              <Image 
+                src='/login.jpg'
+                alt='Register'
+                className="w-full h-auto object-cover rounded-lg"
+                width={400}
+                height={256}
+                unoptimized 
+              />
+            </div>
+        
+            <div className="w-full md:w-1/2 max-w-md px-4 sm:px-8">
+            <div className="w-full flex flex-col">
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                         Sign in to your account
                     </h2>
@@ -171,6 +186,7 @@ export default function LoginPage() {
                         </button>
                     </div>
                 </form>
+                </div>
             </div>
         </div>
     );
