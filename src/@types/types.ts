@@ -176,31 +176,84 @@ export interface Category {
 export type BudgetPeriod = 'weekly' | 'monthly' | 'quarterly' | 'yearly';
 export type RolloverType = 'none' | 'full' | 'partial';
 
+// export interface Budget {
+//     _id: string;
+//     name: string;
+//     amount: number;
+//     period: BudgetPeriod;
+//     startDate: string;
+//     endDate?: string;
+//     categoryId?: string;
+//     userId: string;
+//     isRecurring: boolean;
+//     rollover: {
+//         type: RolloverType;
+//         maxAmount?: number;
+//     };
+//     notifications: {
+//         method: string;
+//         enabled: boolean;
+//         threshold: number;
+//     };
+//     createdAt: string;
+//     updatedAt: string;
+//     spendAmount?: number;
+//     remainingAmount?: number;
+//     progressPercentage?: number;
+// }
+
+
 export interface Budget {
-    _id: string;
+    id: string;
     name: string;
     amount: number;
-    period: BudgetPeriod;
+    category: string;
+    period: "weekly" | "monthly" | "yearly";
     startDate: string;
     endDate?: string;
-    categoryId?: string;
-    userId: string;
-    isRecurring: boolean;
-    rollover: {
-        type: RolloverType;
-        maxAmount?: number;
-    };
-    notifications: {
-        method: string;
-        enabled: boolean;
-        threshold: number;
-    };
+    rollover: boolean;
     createdAt: string;
     updatedAt: string;
-    spendAmount?: number;
-    remainingAmount?: number;
-    progressPercentage?: number;
-}
+  }
+  
+  export interface BudgetProgress extends Budget {
+    spent: number;
+    remaining: number;
+    percentageUsed: number;
+  }
+  
+  export interface BudgetForecast {
+    month: string;
+    projectedSpending: number;
+    averageSpending: number;
+    suggestedBudget: number;
+  }
+  
+  export interface BudgetAlert {
+    id: string;
+    budgetId: string;
+    budgetName: string;
+    type: "threshold" | "overspend";
+    message: string;
+    threshold?: number;
+    amount?: number;
+    createdAt: string;
+    read: boolean;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export interface Account {
     _id: string;
