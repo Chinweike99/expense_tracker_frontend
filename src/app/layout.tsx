@@ -47,9 +47,6 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-// import { Toaster } from "sonner";
-// import QueryProvider from "@/components/providers/QueryProvider";
-// import { SessionProvider } from "next-auth/react";
 
 const outfit = Outfit({
   variable: "--font-outfit",

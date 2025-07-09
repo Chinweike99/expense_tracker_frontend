@@ -39,9 +39,9 @@ export interface Transaction {
     _id: string;
     amount: number;
     description: string;
-    date: string; // ISO string
+    date: string; 
     type: TransactionType;
-    categoryId: string; // Reference by ID
+    categoryId: string; 
     accountId: string;
     userId: string;
     tags: string[];

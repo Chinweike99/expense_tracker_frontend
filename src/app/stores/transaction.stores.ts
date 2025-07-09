@@ -57,7 +57,7 @@ export const useTransactionStore = create<TransactionState>((set) => ({
         set({ isLoading: true });
         try {
             const { data } = await api.get("/api/transactions", { params });
-            set({transactions: data})
+            set({ transactions: Array.isArray(data) ? data : data.transactions || [] });
         } catch {
             set({error: "Failed to fetch transactions"})
         }finally{
@@ -164,3 +164,4 @@ export const useTransactionStore = create<TransactionState>((set) => ({
         }
       },
     }));
+    
