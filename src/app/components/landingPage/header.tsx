@@ -19,7 +19,7 @@ export function Header() {
   const user = useAuthStore((state) => state.user);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm">
+    <header className="fixed top-0 z-50 w-full border bg-[#fcbe88]/80 rounded-full backdrop-blur-md max-w-[1260px]">
       <div className="container flex items-center justify-between h-16 px-4 mx-auto">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -29,7 +29,7 @@ export function Header() {
           <Logo />
         </motion.div>
 
-        <nav className="hidden md:flex items-center gap-6 bg-red-500">
+        <nav className="hidden md:flex items-center gap-6">
           {navItems.map((item, index) => (
             <motion.div
               key={item.name}
@@ -56,10 +56,11 @@ export function Header() {
           className="flex items-center gap-2"
         >
           <Button variant="ghost" asChild>
-            <Link href={user ? "/dashboard" : "/login"}>Sign In</Link>
+            {/* <Link href={user ? "/dashboard" : "/login"}>Sign In</Link> */}
+            <Link href={'/login'}>Sign In</Link>
           </Button>
           <Button asChild>
-            <Link href={user ? "/dashboard" : "/signup"}>Get Started</Link>
+            <Link href={user ? "/dashboard" : "/register"}>Get Started</Link>
           </Button>
         </motion.div>
       </div>

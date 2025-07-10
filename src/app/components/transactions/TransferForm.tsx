@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
 import { useTransactionStore } from "@/app/stores/transaction.stores";
 import { useAccountStore } from "@/app/stores/account.stores";
 
@@ -93,14 +92,14 @@ export function TransferForm({
           <label htmlFor="fromAccount" className="block text-sm font-medium mb-2">
             From Account
           </label>
-          <Select {...register("fromAccount")}>
-            <option value="">Select Account</option>
-            {accounts.map((account) => (
-              <option key={account._id} value={account._id}>
-                {account.name} ({account.currency})
-              </option>
-            ))}
-          </Select>
+          <select {...register("fromAccount")} className="w-full p-2 border rounded">
+  <option value="">Select Account</option>
+  {accounts.map((account) => (
+    <option key={account._id} value={account._id}>
+      {account.name} ({account.currency})
+    </option>
+  ))}
+</select>
           {errors.fromAccount && (
             <p className="text-red-500 text-sm mt-1">{errors.fromAccount.message}</p>
           )}
@@ -110,16 +109,17 @@ export function TransferForm({
           <label htmlFor="toAccount" className="block text-sm font-medium mb-2">
             To Account
           </label>
-          <Select {...register("toAccount")}>
-            <option value="">Select Account</option>
-            {accounts
-              .filter((account) => account._id !== fromAccount)
-              .map((account) => (
-                <option key={account._id} value={account._id}>
-                  {account.name} ({account.currency})
-                </option>
-              ))}
-          </Select>
+          <select {...register("toAccount")} className="w-full p-2 border rounded">
+      <option value="">Select Account</option>
+      {accounts
+        .filter((account) => account._id !== fromAccount)
+        .map((account) => (
+          <option key={account._id} value={account._id}>
+            {account.name} ({account.currency})
+          </option>
+        ))}
+    </select>
+
           {errors.toAccount && (
             <p className="text-red-500 text-sm mt-1">{errors.toAccount.message}</p>
           )}
@@ -142,25 +142,26 @@ export function TransferForm({
       </div>
 
       {showFeeAccount && (
-        <div>
-          <label htmlFor="feeAccount" className="block text-sm font-medium mb-2">
-            Fee Account
-          </label>
-          <Select {...register("feeAccount")}>
-            <option value="">Same as From Account</option>
-            {accounts
-              .filter((account) => account._id !== fromAccount)
-              .map((account) => (
-                <option key={account._id} value={account._id}>
-                  {account.name} ({account.currency})
-                </option>
-              ))}
-          </Select>
-          {errors.feeAccount && (
-            <p className="text-red-500 text-sm mt-1">{errors.feeAccount.message}</p>
-          )}
-        </div>
-      )}
+  <div>
+    <label htmlFor="feeAccount" className="block text-sm font-medium mb-2">
+      Fee Account
+    </label>
+    <select {...register("feeAccount")} className="w-full p-2 border rounded">
+      <option value="">Same as From Account</option>
+      {accounts
+        .filter((account) => account._id !== fromAccount)
+        .map((account) => (
+          <option key={account._id} value={account._id}>
+            {account.name} ({account.currency})
+          </option>
+        ))}
+    </select>
+    {errors.feeAccount && (
+      <p className="text-red-500 text-sm mt-1">{errors.feeAccount.message}</p>
+    )}
+  </div>
+)}
+
 
       <Button type="submit" disabled={isLoading}>
         {isLoading ? "Processing..." : "Complete Transfer"}

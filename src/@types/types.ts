@@ -37,6 +37,7 @@ export type TransactionType = 'expense' | 'income' | 'transfer';
 
 export interface Transaction {
     _id: string;
+    account: string | any,
     amount: number;
     description: string;
     date: string; 

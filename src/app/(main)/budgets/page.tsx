@@ -12,7 +12,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
-import {toast} from 'react-toastify'
 import { Budget, BudgetProgress } from "@/@types/types";
 import { useBudgetAlerts, useBudgetForecast, useBudgets, useCreateBudget } from "@/app/stores/budget.store";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -38,9 +37,7 @@ export default function BudgetsPage() {
     if (!budgets) return [];
     
     return budgets.map((budget): BudgetProgress => {
-      // You'll need to calculate or fetch the actual spent amount
-      // This is a placeholder - replace with your actual logic
-      const spent = calculateSpentAmount(budget); // Implement this function
+      const spent = calculateSpentAmount(budget);
       const remaining = Math.max(0, budget.amount - spent);
       const percentageUsed = budget.amount > 0 ? (spent / budget.amount) * 100 : 0;
       
@@ -63,7 +60,6 @@ export default function BudgetsPage() {
   };
 
   const handleEdit = (budgetProgress: BudgetProgress) => {
-    // Extract the original Budget object for editing
     const originalBudget: Budget = {
       id: budgetProgress.id,
       name: budgetProgress.name,

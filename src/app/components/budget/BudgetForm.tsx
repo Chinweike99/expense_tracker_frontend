@@ -12,13 +12,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -41,7 +34,10 @@ const formSchema = z.object({
   period: z.enum(["weekly", "monthly", "yearly"]),
   startDate: z.date(),
   endDate: z.date().optional(),
-  rollover: z.boolean(),
+  // rollover: z.boolean(),
+  rollover: z.object({
+    enabled: z.boolean()
+  }),
 });
 
 interface BudgetFormProps {
@@ -68,7 +64,11 @@ export function BudgetForm({
       period: initialData?.period || "monthly",
       startDate: initialData?.startDate ? new Date(initialData.startDate) : new Date(),
       endDate: initialData?.endDate ? new Date(initialData.endDate) : undefined,
-      rollover: initialData?.rollover || false,
+      // rollover: initialData?.rollover || false,
+      rollover: {
+        enabled: initialData?.rollover || false,
+        // Initialize other rollover properties
+      },
     },
   });
 
@@ -116,7 +116,7 @@ export function BudgetForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Category</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              {/* <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a category" />
@@ -129,7 +129,22 @@ export function BudgetForm({
                     </SelectItem>
                   ))}
                 </SelectContent>
-              </Select>
+              </Select> */}
+              <select
+  value={field.value}
+  onChange={(e) => field.onChange(e.target.value)}
+  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+>
+  <option value="" disabled>
+    Select a category
+  </option>
+  {categories?.map((category: any) => (
+    <option key={category._id} value={category.type}>
+      {category.type}
+    </option>
+  ))}
+</select>
+
               <FormMessage />
             </FormItem>
           )}
@@ -141,18 +156,19 @@ export function BudgetForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Budget Period</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a period" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="weekly">Weekly</SelectItem>
-                  <SelectItem value="monthly">Monthly</SelectItem>
-                  <SelectItem value="yearly">Yearly</SelectItem>
-                </SelectContent>
-              </Select>
+              <select
+  value={field.value}
+  onChange={(e) => field.onChange(e.target.value)}
+  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+>
+  <option value="" disabled>
+    Select a period
+  </option>
+  <option value="weekly">Weekly</option>
+  <option value="monthly">Monthly</option>
+  <option value="yearly">Yearly</option>
+</select>
+
               <FormMessage />
             </FormItem>
           )}
@@ -242,7 +258,7 @@ export function BudgetForm({
 
         <FormField
           control={form.control}
-          name="rollover"
+          name="rollover.enabled"
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">

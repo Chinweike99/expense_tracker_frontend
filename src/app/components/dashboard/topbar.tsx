@@ -38,7 +38,7 @@ export function TopBar({ user }: TopBarProps) {
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => signOut()}>
+              <DropdownMenuItem onClick={() => signOut()} className="text-red-500">
                 Sign Out
               </DropdownMenuItem>
             </DropdownMenuContent>

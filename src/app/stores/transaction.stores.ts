@@ -107,7 +107,7 @@ export const useTransactionStore = create<TransactionState>((set) => ({
     deleteTransaction: async (id) => {
         set({ isLoading: true });
         try {
-          await api.delete(`/transactions/${id}`);
+          await api.delete(`/api/transactions/${id}`);
           set((state) => ({
             transactions: state.transactions.filter((t) => t._id !== id),
           }));
@@ -118,7 +118,7 @@ export const useTransactionStore = create<TransactionState>((set) => ({
       createRecurringTransaction: async (transaction) => {
         set({ isLoading: true });
         try {
-          const { data } = await api.post("/transactions/recurring", transaction);
+          const { data } = await api.post("/api/transactions/recurring", transaction);
           set((state) => ({
             recurringTransactions: [...state.recurringTransactions, data],
           }));
@@ -129,7 +129,7 @@ export const useTransactionStore = create<TransactionState>((set) => ({
       updateRecurringTransaction: async (id, updates) => {
         set({ isLoading: true });
         try {
-          const { data } = await api.patch(`/transactions/recurring/${id}`, updates);
+          const { data } = await api.patch(`/api/transactions/recurring/${id}`, updates);
           set((state) => ({
             recurringTransactions: state.recurringTransactions.map((t) =>
               t.id === id ? data : t
@@ -142,7 +142,7 @@ export const useTransactionStore = create<TransactionState>((set) => ({
       deleteRecurringTransaction: async (id) => {
         set({ isLoading: true });
         try {
-          await api.delete(`/transactions/recurring/${id}`);
+          await api.delete(`/api/transactions/recurring/${id}`);
           set((state) => ({
             recurringTransactions: state.recurringTransactions.filter(
               (t) => t.id !== id
@@ -155,7 +155,7 @@ export const useTransactionStore = create<TransactionState>((set) => ({
       createTransfer: async (transferData) => {
         set({ isLoading: true });
         try {
-          const { data } = await api.post("/transactions/transfer", transferData);
+          const { data } = await api.post("/api/transactions/transfer", transferData);
           set((state) => ({
             transactions: [data.withdrawal, data.deposit, ...state.transactions],
           }));

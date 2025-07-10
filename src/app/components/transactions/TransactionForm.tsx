@@ -216,7 +216,7 @@ export function TransactionForm({
                 <SelectContent>
                   {filteredCategories.map((category) => (
                     <SelectItem key={category._id} value={category._id}>
-                      {category.name}
+                      {category.type}
                     </SelectItem>
                   ))}
                 </SelectContent>

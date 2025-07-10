@@ -13,9 +13,9 @@ export function HeroSection() {
   
   return (
     <section className="relative overflow-hidden">
-      <div className="container px-4 py-24 mx-auto md:py-32">
-        {/* <Header /> */}
-        <div className="flex flex-col items-center gap-8 text-center">
+      <div className="container px-4 mx-auto flex items-center justify-center">
+        <Header />
+        <div className="flex flex-col items-center gap-8 text-center mt-[120px] max-w-[1240px]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

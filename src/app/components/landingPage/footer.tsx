@@ -1,28 +1,28 @@
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Github } from "lucide-react";
+import { Facebook, Twitter, Instagram, Github, LinkedinIcon } from "lucide-react";
 import { Logo } from "../logo";
 
 export function Footer() {
   return (
     <footer className="py-12 border-t bg-muted/40">
-      <div className="container px-4 mx-auto">
-        <div className="grid gap-8 md:grid-cols-4">
+      <div className="container px-4 mx-auto max-w-[1240px]">
+        <div className="grid gap-8 md:grid-cols-4 ">
           <div className="space-y-4">
             <Logo />
             <p className="text-sm text-muted-foreground">
               The most intuitive expense tracker to help you save money and achieve your financial goals.
             </p>
             <div className="flex gap-4">
-              <Link href="#" className="text-muted-foreground hover:text-foreground">
-                <Facebook className="w-5 h-5" />
+              <Link href="https://www.linkedin.com/in/innocent-akwolu-5096a5238/" className="text-muted-foreground hover:text-foreground">
+                <LinkedinIcon className="w-5 h-5" />
               </Link>
-              <Link href="#" className="text-muted-foreground hover:text-foreground">
+              <Link href="https://x.com/Chinwe_script" className="text-muted-foreground hover:text-foreground">
                 <Twitter className="w-5 h-5" />
               </Link>
               <Link href="#" className="text-muted-foreground hover:text-foreground">
                 <Instagram className="w-5 h-5" />
               </Link>
-              <Link href="#" className="text-muted-foreground hover:text-foreground">
+              <Link href="https://github.com/Chinweike99" className="text-muted-foreground hover:text-foreground">
                 <Github className="w-5 h-5" />
               </Link>
             </div>

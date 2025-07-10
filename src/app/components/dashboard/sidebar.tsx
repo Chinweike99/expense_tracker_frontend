@@ -14,7 +14,7 @@ import {
   LogOut,
   User,
 } from "lucide-react";
-// import { signOut } from "@/lib/auth";
+import { signOut } from "@/app/lib/auth";
 
 const navItems = [
   {
@@ -47,11 +47,11 @@ const navItems = [
     href: "/accounts",
     icon: User,
   },
-//   {
-//     name: "Settings",
-//     href: "/settings",
-//     icon: Settings,
-//   },
+  {
+    name: "Settings",
+    href: "/settings",
+    icon: Settings,
+  },
 ];
 
 export function Sidebar({ className }: { className?: string }) {
@@ -60,29 +60,30 @@ export function Sidebar({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "hidden w-[250px] border-r bg-background lg:flex flex-col",
+        "w-[250px] border-r bg-background lg:flex flex-col",
         className
       )}
     >
       <div className="p-4 border-b">
-        <h1 className="text-xl font-bold">Expense Tracker</h1>
+        <h1 className="text-xl font-bold">ExpensePro</h1>
       </div>
-      <nav className="flex-1 p-4 space-y-1">
+      <nav className="flex-1 p-4 space-y-1 ">
         {navItems.map((item) => (
           <Button
             key={item.href}
             asChild
             variant="ghost"
             className={cn(
-              "w-full justify-start",
+              "w-full justify-start text-sm md:text-lg text-gray-600 py-7",
               pathname.startsWith(item.href)
-                ? "bg-accent text-accent-foreground"
-                : "hover:bg-accent/50"
+                ? "bg-[#f6dfcb] border-r-5 hover:bg-[#f6dfcb] border-[#f57708] text-accent-foreground"
+                : ""
             )}
           >
             <Link href={item.href}>
-              <item.icon className="w-4 h-4 mr-2" />
-              {item.name}
+              <item.icon className="w-8 h-8 mr-2 font-bold text-[#f57708]" />
+              <span className="flex flex-col">{item.name}</span>
+              
             </Link>
           </Button>
         ))}
@@ -90,8 +91,8 @@ export function Sidebar({ className }: { className?: string }) {
       <div className="p-4 border-t">
         <Button
           variant="ghost"
-          className="w-full justify-start"
-        //   onClick={() => signOut()}
+          className="w-full justify-start text-red-600"
+          onClick={() => signOut()}
         >
           <LogOut className="w-4 h-4 mr-2" />
           Sign Out

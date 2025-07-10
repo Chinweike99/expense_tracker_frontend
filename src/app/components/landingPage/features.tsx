@@ -60,8 +60,8 @@ const item = {
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="py-24 bg-muted/40">
-      <div className="container px-4 mx-auto">
+    <section id="features" className="py-24 bg-muted/40 ">
+      <div className="container px-4 mx-auto max-w-[1240px]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

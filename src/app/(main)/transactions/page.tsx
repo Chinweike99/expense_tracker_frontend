@@ -1,11 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-// import { useTransactionStore } from "@/app/stores/transaction.store";
-// import { useAccountStore } from "@/stores/account.store";
-// import { useCategoryStore } from "@/stores/category.store";
 import { Button } from "@/components/ui/button";
-// import { TransactionForm } from "@/components/transactions/TransactionForm";
-// import { TransferForm } from "@/components/transactions/TransferForm";
 import {
   Table,
   TableBody,
@@ -14,11 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
@@ -38,10 +29,11 @@ export default function TransactionsPage() {
     deleteTransaction,
     deleteRecurringTransaction,
   } = useTransactionStore();
-  const { accounts } = useAccountStore();
-  const { categories } = useCategoryStore();
 
-  const [filter, ] = useState({
+  const { accounts, fetchAccounts } = useAccountStore();
+  const { categories, fetchCategories } = useCategoryStore();
+
+  const [filter] = useState({
     type: "",
     account: "",
     category: "",
@@ -52,13 +44,33 @@ export default function TransactionsPage() {
   useEffect(() => {
     fetchTransactions(filter);
     fetchRecurringTransactions();
-  }, [filter, fetchTransactions, fetchRecurringTransactions]);
 
-  const getAccountName = (id: string) => 
-    accounts.find((a) => a._id === id)?.name || id;
-  
-  const getCategoryName = (id: string) => 
-    categories.find((c) => c._id === id)?.name || id;
+    fetchAccounts();
+    fetchCategories();
+  }, [
+    filter,
+    fetchTransactions,
+    fetchRecurringTransactions,
+    fetchAccounts,
+    fetchCategories,
+  ]);
+
+  const getAccountName = (account: any) => {
+    if (account && typeof account === "object" && account.name) {
+      return account.name;
+    }
+    if (typeof account === "string") {
+      const foundAccount = accounts.find((a) => a._id === account);
+      return foundAccount ? foundAccount.name : "Unknown Account";
+    }
+    return "Unknown Account";
+  };
+
+  const getCategoryName = (categoryId: string) => {
+    if (!categoryId) return "No Category";
+    const category = categories.find((c) => c._id === categoryId);
+    return category ? category.name : "Unknown Category";
+  };
 
   return (
     <div className="container mx-auto py-8">
@@ -95,57 +107,64 @@ export default function TransactionsPage() {
         <TabsContent value="transactions">
           <div className="border rounded-lg mt-4">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-[#f0f1f1]">
                 <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Account</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead className="border-r">Date</TableHead>
+                  <TableHead className="border-r">Description</TableHead>
+                  <TableHead className="border-r">Amount</TableHead>
+                  <TableHead className="border-r">Account</TableHead>
+                  <TableHead className="border-r">Type</TableHead>
+                  <TableHead className="border-r">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {transactions.map((transaction) => (
-                  <TableRow key={transaction._id}>
-                    <TableCell>
-                      {format(new Date(transaction.date), "MMM dd, yyyy")}
-                    </TableCell>
-                    <TableCell>{transaction.description}</TableCell>
-                    <TableCell
-                      className={
-                        transaction.type === "income"
-                          ? "text-green-500"
-                          : "text-red-500"
-                      }
-                    >
-                      {transaction.type === "income" ? "+" : "-"}
-                      {transaction.amount.toLocaleString(undefined, {
-                        style: "currency",
-                        currency: "USD",
-                      })}
-                    </TableCell>
-                    <TableCell>{getAccountName(transaction.accountId)}</TableCell>
-                    <TableCell>{getCategoryName(transaction.categoryId)}</TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={transaction.type === "income" ? "default" : "destructive"}
+                {transactions.map((transaction) => {
+                  return (
+                    <TableRow key={transaction._id}>
+                      <TableCell className="border-r">
+                        {format(new Date(transaction.date), "MMM dd, yyyy")}
+                      </TableCell>
+                      <TableCell className="border-r">
+                        {transaction.description}
+                      </TableCell>
+                      <TableCell
+                        className={`border-r
+            ${
+              transaction.type === "income" ? "text-green-500" : "text-red-500"
+            }`}
                       >
-                        {transaction.type}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Button variant="ghost">Edit</Button>
-                      <Button
-                        variant="ghost"
-                        onClick={() => deleteTransaction(transaction._id)}
-                      >
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                        {transaction.type === "income" ? "+" : "-"}
+                        {transaction.amount.toLocaleString(undefined, {
+                          style: "currency",
+                          currency: "USD",
+                        })}
+                      </TableCell>
+                      <TableCell className="border-r">
+                        {transaction.account.name || "Unknown Account"}
+                      </TableCell>
+                      <TableCell className="border-r">
+                        <Badge
+                          variant={
+                            transaction.type === "income"
+                              ? "default"
+                              : "destructive"
+                          }
+                        >
+                          {transaction.type}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Button variant="ghost">Edit</Button>
+                        <Button
+                          variant="ghost"
+                          onClick={() => deleteTransaction(transaction._id)}
+                        >
+                          Delete
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
@@ -154,21 +173,23 @@ export default function TransactionsPage() {
         <TabsContent value="recurring">
           <div className="border rounded-lg mt-4">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-[#f0f1f1]">
                 <TableRow>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Frequency</TableHead>
-                  <TableHead>Next Occurrence</TableHead>
-                  <TableHead>Account</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead className="border-r">Description</TableHead>
+                  <TableHead className="border-r">Amount</TableHead>
+                  <TableHead className="border-r">Frequency</TableHead>
+                  <TableHead className="border-r">Next Occurrence</TableHead>
+                  <TableHead className="border-r">Account</TableHead>
+                  <TableHead className="border-r">Category</TableHead>
+                  <TableHead className="border-r">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {recurringTransactions.map((transaction) => (
                   <TableRow key={transaction.id}>
-                    <TableCell>{transaction.description}</TableCell>
+                    <TableCell className="border-r">
+                      {transaction.description}
+                    </TableCell>
                     <TableCell
                       className={
                         transaction.type === "income"
@@ -185,7 +206,7 @@ export default function TransactionsPage() {
                     <TableCell className="capitalize">
                       {transaction.frequency}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="border-r">
                       {transaction.nextRecurringDate
                         ? format(
                             new Date(transaction.nextRecurringDate),
@@ -193,9 +214,13 @@ export default function TransactionsPage() {
                           )
                         : "N/A"}
                     </TableCell>
-                    <TableCell>{getAccountName(transaction.account)}</TableCell>
-                    <TableCell>{getCategoryName(transaction.category)}</TableCell>
-                    <TableCell>
+                    <TableCell className="border-r">
+                      {getAccountName(transaction.account)}
+                    </TableCell>
+                    <TableCell className="border-r">
+                      {getCategoryName(transaction.category)}
+                    </TableCell>
+                    <TableCell className="border-r">
                       <Button variant="ghost">Edit</Button>
                       <Button
                         variant="ghost"

@@ -383,7 +383,7 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="py-6">
+        <Card className=" border-[#f57708]">
           <CardHeader>
             <CardTitle>Current Month</CardTitle>
           </CardHeader>
@@ -420,7 +420,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className=" border-[#f57708]">
           <CardHeader>
             <CardTitle>Previous Month</CardTitle>
           </CardHeader>
@@ -457,7 +457,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className=" border-[#f57708]">
           <CardHeader>
             <CardTitle>Trends</CardTitle>
           </CardHeader>
@@ -487,7 +487,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className=" border-[#f57708]">
           <CardHeader>
             <CardTitle>Total Balance</CardTitle>
           </CardHeader>
@@ -506,7 +506,7 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+        <Card className=" border-[#f57708]">
           <CardHeader>
             <CardTitle>Spending by Category</CardTitle>
           </CardHeader>
@@ -517,13 +517,13 @@ export default function DashboardPage() {
             />
             {!hasValidCategoryData && (
               <p className="text-xs text-muted-foreground text-center mt-2">
-                Showing sample data - Connect your accounts to see real data
+                Real data would display when you create your categories
               </p>
             )}
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className=" border-[#f57708]">
           <CardHeader>
             <CardTitle>Income vs Expenses</CardTitle>
           </CardHeader>
@@ -538,7 +538,7 @@ export default function DashboardPage() {
             />
             {!hasValidIncomeExpenseData && (
               <p className="text-xs text-muted-foreground text-center mt-2">
-                Showing sample data - Connect your accounts to see real data
+                Real datas would display when you create real expense and income
               </p>
             )}
           </CardContent>
