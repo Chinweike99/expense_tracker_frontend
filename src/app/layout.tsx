@@ -8,7 +8,8 @@ import {
   Inter, 
   DM_Sans, 
 } from "next/font/google";
-import "./globals.css";
+// import "./globals.css";
+import '@/app/globals.css'
 import { Providers } from "./providers";
 
 const outfit = Outfit({
