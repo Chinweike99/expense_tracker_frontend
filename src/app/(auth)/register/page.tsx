@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react"
 import { useState } from "react";
+import Image from "next/image";
 
 
 
@@ -30,7 +31,7 @@ const signupSchema = z.object({
 
 
 
-export const RegisterPage = () => {
+export default function RegisterPage() {
     
     const router = useRouter();
     const { register: signup, isLoading} = useAuthStore();
@@ -77,20 +78,33 @@ export const RegisterPage = () => {
         setShowPassword(!showPassword);
     };
 
-    // const toggleConfirmPasswordVisibility = () => {
-    //     setShowConfirmPassword(!showConfirmPassword);
-    // };
+
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+<div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8 py-12">
+  <div className="max-w-[1440px] w-full flex flex-col md:flex-row gap-8 items-center justify-center">
+    
+    {/* Image: hidden on small screens, shown on md+ */}
+    <div className="hidden md:block md:w-1/2 lg:w-2/5">
+      <Image 
+        src='/register.jpg'
+        alt='Register'
+        className="w-full h-auto object-cover rounded-lg"
+        width={400}
+        height={256}
+        unoptimized 
+      />
+    </div>
+
+    <div className="w-full md:w-1/2 max-w-md px-4 sm:px-8">
+      <div className="w-full flex flex-col">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Create your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Already have an account?{" "}
-            <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+            <Link href="/login" className="font-medium text-[#f57708] hover:bg-[#f57708ee]">
               Sign in
             </Link>
           </p>
@@ -105,7 +119,7 @@ export const RegisterPage = () => {
             </div>
           </div>
         )}
-
+  
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="rounded-xl shadow-lg  p-6">
             <div>
@@ -117,7 +131,7 @@ export const RegisterPage = () => {
                 type="text"
                 autoComplete="name"
                 required
-                className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-[12px]"
+                className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#f57708] focus:border-[#f57708] focus:z-10 text-[12px]"
                 placeholder="Full Name"
                 {...register("name")}
               />
@@ -134,7 +148,7 @@ export const RegisterPage = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-[12px] "
+                className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#f57708] focus:border-[#f57708] focus:z-10 text-[12px] "
                 placeholder="Email address"
                 {...register("email")}
               />
@@ -146,14 +160,14 @@ export const RegisterPage = () => {
               <label htmlFor="password" className="text-[12px] ml-2 text-gray-600">
                 Password
               </label>
-              
-              <div className="flex items-center appearance-none rounded-full relative  w-full  border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-[12px]">
+              <div>
+              <div className="flex items-center appearance-none rounded-full relative  w-full  border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-[#f57708] focus:border-[#f57708] focus:z-10 text-[12px]">
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
                 required
-                className="appearance-none p-3 border h-full py-2 rounded-full relative block w-full  border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-[12px]"
+                className="appearance-none p-3 border h-full py-2 rounded-full relative block w-full  border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-[#f57708] focus:border-[#f57708] focus:z-10 text-[12px]"
                 placeholder="Password"
                 {...register("password")}
               />
@@ -168,6 +182,7 @@ export const RegisterPage = () => {
                                     <Eye size={20} />
                                 )}
                             </button>
+                            </div>
               {errors.password && (
                 <p className="mt-1 text-xs ml-2 text-red-600">{errors.password.message}</p>
               )}
@@ -214,7 +229,7 @@ export const RegisterPage = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-xl text-white cursor-pointer bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-xl text-white cursor-pointer bg-[#f57708] hover:bg-[#f57708ee] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <>
@@ -246,8 +261,17 @@ export const RegisterPage = () => {
             </button>
           </div>
         </form>
+
+        </div>
+        </div>
       </div>
     </div>
   );
 
 }
+
+
+// export default RegisterPage;
+
+
+

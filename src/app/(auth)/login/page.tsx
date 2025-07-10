@@ -8,6 +8,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 import * as z from 'zod';
+import Image from 'next/image';
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -53,15 +54,29 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
-                <div>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8 py-12">
+          <div className="max-w-[1440px] w-full flex flex-col md:flex-row gap-8 items-center justify-center">
+            
+            {/* Image: hidden on small screens, shown on md+ */}
+            <div className="hidden md:block md:w-1/2 lg:w-2/5">
+              <Image 
+                src='/login.jpg'
+                alt='Register'
+                className="w-full h-auto object-cover rounded-lg"
+                width={400}
+                height={256}
+                unoptimized 
+              />
+            </div>
+        
+            <div className="w-full md:w-1/2 max-w-md px-4 sm:px-8">
+            <div className="w-full flex flex-col">
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                         Sign in to your account
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600">
                         Don&apos;t have an account?{" "}
-                        <Link href="/" className="font-medium text-indigo-600 hover:text-indigo-500">
+                        <Link href="/" className="font-medium text-[#f57708] hover:text-[#f57708]">
                             Sign up
                         </Link>
                     </p>
@@ -88,7 +103,7 @@ export default function LoginPage() {
                                 type="email"
                                 autoComplete="email"
                                 required
-                                className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-[12px]"
+                                className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#f57708] focus:border-[#f57708] focus:z-10 text-[12px]"
                                 placeholder="Email address"
                                 {...register("email")}
                             />
@@ -106,13 +121,13 @@ export default function LoginPage() {
                                 type={showPassword ? "text" : "password"}
                                 autoComplete="current-password"
                                 required
-                                className="appearance-none rounded-full relative block w-full px-3 py-2 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-[12px]"
+                                className="appearance-none rounded-full relative block w-full px-3 py-2 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#f57708] focus:border-[#f57708] focus:z-10 text-[12px]"
                                 placeholder="Password"
                                 {...register("password")}
                             />
                             <button
                                 type="button"
-                                className="absolute right-3 top-8 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                className="absolute right-3 top-8 text-gray-400 hover:text-gray-600"
                                 onClick={togglePasswordVisibility}
                             >
                                 {showPassword ? (
@@ -139,7 +154,7 @@ export default function LoginPage() {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#f57708] hover:bg-[#f57708ee] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {isLoading ? (
                                 <>
@@ -171,6 +186,7 @@ export default function LoginPage() {
                         </button>
                     </div>
                 </form>
+                </div>
             </div>
         </div>
     );

@@ -47,9 +47,6 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-// import { Toaster } from "sonner";
-// import QueryProvider from "@/components/providers/QueryProvider";
-// import { SessionProvider } from "next-auth/react";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -90,8 +87,8 @@ const dmsans = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://expensetracker.com"), // Update with your domain
   title: {
-    default: "ExpenseTracker - Smart Personal Finance Management",
-    template: "%s | ExpenseTracker",
+    default: "ExpensePro - Smart Personal Finance Management",
+    template: "%s | ExpensePro",
   },
   description: "Take control of your finances with ExpenseTracker. Track expenses, manage budgets, analyze spending patterns, and achieve your financial goals with our intuitive expense tracking platform.",
   keywords: [
@@ -121,7 +118,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://expensetracker.com/",
+    url: "https://expense-tracker-frontend-fuxw.onrender.com/",
     siteName: "ExpenseTracker",
     title: "ExpenseTracker - Smart Personal Finance Management",
     description: "Take control of your finances with ExpenseTracker. Track expenses, manage budgets, analyze spending patterns, and achieve your financial goals with our intuitive platform.",
