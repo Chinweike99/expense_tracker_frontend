@@ -28,17 +28,17 @@ export function CalendarHeatmap({ data, width = 800, height = 200 }: CalendarHea
     const dayPadding = 2;
     const weekPadding = 5;
 
-    // Create color scale
-    const maxValue = d3.max(parsedData, d => d.value) || 1;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const maxValue = d3.max(parsedData, (d: { value: any; }) => d.value) || 1;
     const colorScale = d3.scaleSequential(d3.interpolateOranges)
       .domain([0, maxValue]);
 
-    // Group data by year and month
-    const groupedByYear = d3.group(parsedData, d => d.date.getFullYear());
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const groupedByYear = d3.group(parsedData, (d: { date: { getFullYear: () => any; }; }) => d.date.getFullYear());
     
     let yOffset = 0;
-    
-    groupedByYear.forEach((yearData, year) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    groupedByYear.forEach((yearData: any, year: number) => {
       // Add year label
       svg.append("text")
         .attr("x", 0)
@@ -49,10 +49,10 @@ export function CalendarHeatmap({ data, width = 800, height = 200 }: CalendarHea
 
       yOffset += 25;
 
-      // Group by month within the year
-      const groupedByMonth = d3.group(yearData, d => d.date.getMonth());
-      
-      groupedByMonth.forEach((monthData, month) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const groupedByMonth = d3.group(yearData, (d: { date: { getMonth: () => any; }; }) => d.date.getMonth());
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      groupedByMonth.forEach((monthData: any[], month: number) => {
         const monthName = new Date(2000, month, 1).toLocaleString('default', { month: 'short' });
         
         // Add month label
