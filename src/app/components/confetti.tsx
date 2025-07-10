@@ -21,14 +21,12 @@ export function useConfetti() {
       });
     };
 
-    // Left side
     fireConfetti(0.25, {
       angle: 60,
       spread: 55,
       startVelocity: 65,
     });
-
-    // Right side
+    
     fireConfetti(0.25, {
       angle: 120,
       spread: 55,
