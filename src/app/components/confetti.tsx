@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import confetti from "canvas-confetti";
+import { ConfettiOptions } from "@/@types/types";
 
 export function useConfetti() {
   const fire = () => {
@@ -11,7 +12,8 @@ export function useConfetti() {
       spread: 90,
     };
 
-    const fireConfetti = (particleRatio: number, opts: confetti.Options) => {
+    const fireConfetti = (particleRatio: number, opts: ConfettiOptions) => {
+
       confetti({
         ...defaults,
         ...opts,
