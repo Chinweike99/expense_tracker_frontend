@@ -36,7 +36,7 @@ export default function RemindersPage() {
   const updateReminder = useUpdateReminder();
   const createDebt = useCreateDebt();
   const updateDebt = useUpdateDebts();
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmitReminder = (values: any) => {
     if (editingItem && "type" in editingItem) {
       updateReminder.mutate(
@@ -56,7 +56,7 @@ export default function RemindersPage() {
       });
     }
   };
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmitDebt = (values: any) => {
     if (editingItem && "initialAmount" in editingItem) {
       updateDebt.mutate(
@@ -112,6 +112,7 @@ export default function RemindersPage() {
             </div>
           ) : reminders && reminders.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               {reminders.map((reminder: any) => (
                 <ReminderCard
                   key={reminder.id}
@@ -126,7 +127,7 @@ export default function RemindersPage() {
           ) : (
             <div className="text-center py-12">
               <p className="text-muted-foreground">
-                You don't have any reminders yet. Create one to get started.
+                You don&apos;t have any reminders yet. Create one to get started.
               </p>
             </div>
           )}
@@ -157,7 +158,7 @@ export default function RemindersPage() {
           ) : (
             <div className="text-center py-12">
               <p className="text-muted-foreground">
-                You don't have any debts tracked yet. Add one to get started.
+                You don&apos;t have any debts tracked yet. Add one to get started.
               </p>
             </div>
           )}

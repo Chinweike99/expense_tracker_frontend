@@ -37,7 +37,8 @@ export function BudgetCard({ budget, onEdit }: BudgetCardProps) {
     <Card className={isOverBudget ? "border-red-500" : ""}>
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-sm font-medium">
-          {budget.name} ({budget.category})
+          {/* {budget.name} ({budget.category}) */}
+          {budget.category?.icon} {budget.name} ({budget.category?.name})
         </CardTitle>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

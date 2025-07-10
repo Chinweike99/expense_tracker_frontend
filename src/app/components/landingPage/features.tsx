@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { TrendingUp, PieChart, Bell, Wallet, BarChart, Download } from "lucide-react";
 
 const features = [

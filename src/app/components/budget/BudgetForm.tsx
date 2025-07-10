@@ -22,10 +22,8 @@ import {
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { Switch } from "@/components/ui/switch";
 import { Budget } from "@/@types/types";
 import { useCategoryStore } from "@/app/stores/category.store";
-
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -34,10 +32,10 @@ const formSchema = z.object({
   period: z.enum(["weekly", "monthly", "yearly"]),
   startDate: z.date(),
   endDate: z.date().optional(),
-  // rollover: z.boolean(),
   rollover: z.object({
-    enabled: z.boolean()
-  }),
+    type: z.enum(['none', 'full', 'partial']),
+    maxAmount: z.number().positive().optional(),
+  }).optional(),
 });
 
 interface BudgetFormProps {
@@ -54,7 +52,7 @@ export function BudgetForm({
   isLoading,
 }: BudgetFormProps) {
   const { categories } = useCategoryStore();
-  
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,10 +62,9 @@ export function BudgetForm({
       period: initialData?.period || "monthly",
       startDate: initialData?.startDate ? new Date(initialData.startDate) : new Date(),
       endDate: initialData?.endDate ? new Date(initialData.endDate) : undefined,
-      // rollover: initialData?.rollover || false,
       rollover: {
-        enabled: initialData?.rollover || false,
-        // Initialize other rollover properties
+        type: initialData?.rollover?.type || 'none',
+        maxAmount: initialData?.rollover?.maxAmount || undefined,
       },
     },
   });
@@ -116,35 +113,21 @@ export function BudgetForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Category</FormLabel>
-              {/* <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {categories?.map((category: any) => (
-                    <SelectItem key={category._id} value={category.type}>
-                      {category.type}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select> */}
               <select
-  value={field.value}
-  onChange={(e) => field.onChange(e.target.value)}
-  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
->
-  <option value="" disabled>
-    Select a category
-  </option>
-  {categories?.map((category: any) => (
-    <option key={category._id} value={category.type}>
-      {category.type}
-    </option>
-  ))}
-</select>
-
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
+                <option value="" disabled>
+                  Select a category
+                </option>
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                {categories?.map((category: any) => (
+                  <option key={category._id} value={category._id}>
+                    {category.type}
+                  </option>
+                ))}
+              </select>
               <FormMessage />
             </FormItem>
           )}
@@ -157,18 +140,17 @@ export function BudgetForm({
             <FormItem>
               <FormLabel>Budget Period</FormLabel>
               <select
-  value={field.value}
-  onChange={(e) => field.onChange(e.target.value)}
-  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
->
-  <option value="" disabled>
-    Select a period
-  </option>
-  <option value="weekly">Weekly</option>
-  <option value="monthly">Monthly</option>
-  <option value="yearly">Yearly</option>
-</select>
-
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+              >
+                <option value="" disabled>
+                  Select a period
+                </option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+              </select>
               <FormMessage />
             </FormItem>
           )}
@@ -258,24 +240,46 @@ export function BudgetForm({
 
         <FormField
           control={form.control}
-          name="rollover.enabled"
+          name="rollover.type"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-              <div className="space-y-0.5">
-                <FormLabel className="text-base">Rollover Unused Funds</FormLabel>
-                <p className="text-sm text-muted-foreground">
-                  Automatically add unused funds to next period's budget
-                </p>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
+            <FormItem>
+              <FormLabel>Rollover Type</FormLabel>
+              <select
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+              >
+                <option value="none">No Rollover</option>
+                <option value="full">Full Rollover</option>
+                <option value="partial">Partial Rollover</option>
+              </select>
+              <FormMessage />
             </FormItem>
           )}
         />
+
+        {form.watch("rollover.type") === "partial" && (
+          <FormField
+            control={form.control}
+            name="rollover.maxAmount"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Maximum Rollover Amount</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min="0.01"
+                    step="0.01"
+                    placeholder="0.00"
+                    {...field}
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         <div className="flex justify-end gap-2">
           <Button type="button" variant="outline" onClick={onCancel}>

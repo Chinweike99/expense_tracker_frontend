@@ -20,7 +20,6 @@ export default function ReportsPage() {
     fetchCategoryComparison,
     fetchExpenseHeatmap,
     exportTransactions,
-    isLoading,
   } = useAnalyticsStore();
   
   const { accounts } = useAccountStore();
@@ -28,8 +27,8 @@ export default function ReportsPage() {
   
   const [activeTab, setActiveTab] = useState("trends");
   const [dateRange, setDateRange] = useState<{ from?: Date; to?: Date }>({});
-  const [selectedAccounts, setSelectedAccounts] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedAccounts, setSelectedAccounts] = useState<string>("");
+  const [selectedCategories, setSelectedCategories] = useState<string>("");
   const [period, setPeriod] = useState<"day" | "week" | "month" | "year">("month");
   const [compareWith, setCompareWith] = useState<"previousPeriod" | "samePeriodLastYear">("previousPeriod");
 
@@ -37,8 +36,8 @@ export default function ReportsPage() {
     const params = {
       startDate: dateRange.from?.toISOString(),
       endDate: dateRange.to?.toISOString(),
-      accounts: selectedAccounts,
-      categories: selectedCategories,
+      accounts: selectedAccounts ? [selectedAccounts] : [],
+    categories: selectedCategories ? [selectedCategories] : [],
     };
 
     if (activeTab === "trends") {
@@ -65,8 +64,8 @@ export default function ReportsPage() {
       format,
       startDate: dateRange.from?.toISOString(),
       endDate: dateRange.to?.toISOString(),
-      accounts: selectedAccounts,
-      categories: selectedCategories,
+      accounts: selectedAccounts ? [selectedAccounts] : [], 
+    categories: selectedCategories ? [selectedCategories] : [], 
     });
   };
 
@@ -78,7 +77,8 @@ export default function ReportsPage() {
         <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
           {/* <DateRangePicker onSelect={setDateRange} /> */}
           <DateRangePicker onSelect={(range) => setDateRange(range ?? {})} />
-          <select
+
+          {/* <select
             multiple
             value={selectedAccounts}
             onChange={(e) => {
@@ -109,7 +109,34 @@ export default function ReportsPage() {
                 {category.name}
               </option>
             ))}
-          </select>
+          </select> */}
+
+          <select
+  value={selectedAccounts}
+  onChange={(e) => setSelectedAccounts(e.target.value)}
+  className="min-w-[200px]"
+>
+  <option value="">All Accounts</option>
+  {accounts.map(account => (
+    <option key={account._id} value={account._id}>
+      {account.name}
+    </option>
+  ))}
+</select>
+
+<select
+  value={selectedCategories}
+  onChange={(e) => setSelectedCategories(e.target.value)}
+  className="min-w-[200px]"
+>
+  <option value="">All Categories</option>
+  {categories.map(category => (
+    <option key={category._id} value={category._id}>
+      {category.name}
+    </option>
+  ))}
+</select>
+
           <div className="flex gap-2">
             <Button onClick={() => handleExport("csv")} variant="outline">
               Export CSV
@@ -135,6 +162,7 @@ export default function ReportsPage() {
                 <CardTitle>Spending Trends</CardTitle>
                 <select
                   value={period}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onChange={(e) => setPeriod(e.target.value as any)}
                   className="w-[150px]"
                 >
@@ -170,6 +198,7 @@ export default function ReportsPage() {
                 <CardTitle>Category Comparison</CardTitle>
                 <select
                   value={compareWith}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onChange={(e) => setCompareWith(e.target.value as any)}
                   className="w-[200px]"
                 >

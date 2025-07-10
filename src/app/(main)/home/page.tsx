@@ -1,4 +1,4 @@
-
+"use client"
 import { useDashboardStats } from "@/app/api/analytics";
 import { useRecentTransactions } from "@/app/api/transactions";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -58,7 +58,7 @@ export default function DashboardPage() {
     </div>
   );
 }
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function format(date: Date, format: string) {
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",

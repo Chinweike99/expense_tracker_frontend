@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Github, LinkedinIcon } from "lucide-react";
+import { Twitter, Instagram, Github, LinkedinIcon } from "lucide-react";
 import { Logo } from "../logo";
 
 export function Footer() {

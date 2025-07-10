@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useAuthStore } from "@/app/stores/auth.store";
 import { Header } from "./header";
-// import { useAuthStore } from "@/stores/auth";
+import Image from "next/image";
 
 export function HeroSection() {
   const user = useAuthStore((state) => state.user);
@@ -72,12 +72,13 @@ export function HeroSection() {
           >
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/20 to-primary/10 -z-10 blur-2xl" />
             <div className="overflow-hidden  border rounded-3xl bg-background/80 border-border/50 backdrop-blur-sm">
-              <img
+            <Image
                 src="/expense.jpg"
                 alt="Dashboard Preview"
+                width={1400}
+                height={500}
                 className="md:w-[1400px] object-cover max-h-[500px]"
-                width={""}
-                height={""}
+                priority
               />
             </div>
           </motion.div>

@@ -23,7 +23,6 @@ import {
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
 import { Debt } from "@/@types/types";
 import { useAccountStore } from "@/app/stores/account.stores";
 

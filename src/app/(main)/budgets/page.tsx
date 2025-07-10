@@ -49,7 +49,7 @@ export default function BudgetsPage() {
       };
     });
   }, [budgets]);
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = (values: any) => {
     createBudget.mutate(values, {
       onSuccess: () => {
@@ -126,7 +126,7 @@ export default function BudgetsPage() {
           ) : (
             <div className="text-center py-12">
               <p className="text-muted-foreground">
-                You don't have any budgets yet. Create one to get started.
+                You don&apos;t have any budgets yet. Create one to get started.
               </p>
             </div>
           )}

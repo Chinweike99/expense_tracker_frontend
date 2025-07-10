@@ -54,7 +54,7 @@ export default function TransactionsPage() {
     fetchAccounts,
     fetchCategories,
   ]);
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getAccountName = (account: any) => {
     if (account && typeof account === "object" && account.name) {
       return account.name;

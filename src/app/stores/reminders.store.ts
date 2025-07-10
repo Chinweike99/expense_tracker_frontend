@@ -104,7 +104,7 @@ export const useDebts = () => {
       },
     });
   };
-  
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   export const useDebtPayoffPlan = (id: string, p0: boolean) => {
     return useQuery({
       queryKey: ["debt-payoff-plan", id],

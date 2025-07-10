@@ -1,15 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MoreVertical, Bell, Check, Clock, AlertTriangle } from "lucide-react";
+import { MoreVertical, Bell, Check, AlertTriangle } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { Reminder } from "@/@types/reminders";
-// import { useUpdateReminder, useDeleteReminder } from "@/app/(main)/api/reminders";
-// import { useToast } from "@/components/ui/use-toast";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Reminder } from "@/@types/types";
