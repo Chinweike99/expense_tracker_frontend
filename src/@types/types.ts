@@ -314,3 +314,22 @@ export interface ApiError {
     };
   };
 }
+
+
+
+export type ConfettiOptions = {
+    angle?: number;
+    spread?: number;
+    startVelocity?: number;
+    decay?: number;
+    scalar?: number;
+    gravity?: number;
+    ticks?: number;
+    particleCount?: number;
+    origin?: { x?: number; y?: number };
+    zIndex?: number;
+    disableForReducedMotion?: boolean;
+    shapes?: string[];
+    colors?: string[];
+  };
+  
