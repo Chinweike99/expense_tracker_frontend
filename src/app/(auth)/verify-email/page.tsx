@@ -21,14 +21,17 @@ const VerifyEmailContent = () => {
 
   const verifyEmail = useCallback(async (token: string) => {
     try {
-      const response = await fetch('/api/auth/verify-email', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token }),
-      });
+      // const response = await fetch('/api/auth/verify-email', {
+      //   method: 'GET',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ token }),
+      // });
 
+      const response = await fetch(`/api/auth/verify-email?token=${token}`, {
+        method: 'GET',
+      });
       const data = await response.json();
 
       if (response.ok) {
