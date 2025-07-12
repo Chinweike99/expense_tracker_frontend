@@ -87,7 +87,7 @@ export default function RegisterPage() {
     {/* Image: hidden on small screens, shown on md+ */}
     <div className="hidden md:block md:w-1/2 lg:w-2/5">
       <Image 
-        src='/register.jpg'
+        src='/Register.jpg'
         alt='Register'
         className="w-full h-auto object-cover rounded-lg"
         width={400}
