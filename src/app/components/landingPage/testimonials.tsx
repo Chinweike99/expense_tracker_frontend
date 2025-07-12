@@ -63,7 +63,7 @@ export function TestimonialsSection() {
                   <p className="text-lg text-gray-600">{testimonial.role}</p>
                 </div>
               </div>
-              <p className="mt-6 text-lg text-center text-gray-600">&qpos;{testimonial.content}&apos;</p>
+              <p className="mt-6 text-lg text-center text-gray-600">&apos;{testimonial.content}&apos;</p>
             </motion.div>
           ))}
         </div>
