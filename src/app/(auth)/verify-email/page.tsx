@@ -9,6 +9,7 @@ interface VerificationState {
   message: string;
 }
 
+
 // Separate component that uses useSearchParams
 const VerifyEmailContent = () => {
   const router = useRouter();
@@ -21,7 +22,7 @@ const VerifyEmailContent = () => {
   const verifyEmail = useCallback(async (token: string) => {
     try {
       const response = await fetch('/api/auth/verify-email', {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
