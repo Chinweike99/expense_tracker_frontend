@@ -292,7 +292,7 @@ const VerifyEmailContent = () => {
       setTimeout(() => {
         router.push('/login');
       }, 3000);
-      
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Verification error:', error);
       
@@ -352,6 +352,7 @@ const VerifyEmailContent = () => {
         status: 'success',
         message: 'Verification email sent! Please check your inbox.'
       });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Resend verification error:', error);
       
