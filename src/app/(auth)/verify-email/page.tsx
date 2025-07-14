@@ -9,7 +9,6 @@
 //   message: string;
 // }
 
-
 // // Separate component that uses useSearchParams
 // const VerifyEmailContent = () => {
 //   const router = useRouter();
@@ -20,10 +19,28 @@
 //   });
 
 //   const verifyEmail = useCallback(async (token: string) => {
+//     const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://expense-tracker-backend-xa74.onrender.com';
 //     try {
-//       const response = await fetch(`/api/auth/verify-email?token=${token}`, {
+      
+//       const response = await fetch(`${BACKEND_URL}/api/auth/verify-email?token=${token}`, {
 //         method: 'GET',
+//         headers: {
+//           'Accept': 'application/json',
+//           'Content-Type': 'application/json',
+//         },
 //       });
+
+//       // Check if response is HTML (404 page) instead of JSON
+//       const contentType = response.headers.get('content-type');
+//       if (!contentType || !contentType.includes('application/json')) {
+//         console.error('Received non-JSON response:', response.status, response.statusText);
+//         setVerificationState({
+//           status: 'error',
+//           message: 'Server error: API endpoint not found. Please contact support.'
+//         });
+//         return;
+//       }
+
 //       const data = await response.json();
 
 //       if (response.ok) {
@@ -77,8 +94,6 @@
 
 //     verifyEmail(token);
 //   }, [searchParams, verifyEmail]);
-
-
 
 //   const resendVerificationEmail = async () => {
 //     try {
@@ -243,18 +258,20 @@
 // export default VerifyEmailPage;
 
 
+
 "use client"
 
 import { useEffect, useState, Suspense, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import api from '@/app/lib/api';
+
 
 interface VerificationState {
   status: 'loading' | 'success' | 'error' | 'expired' | 'invalid';
   message: string;
 }
 
-// Separate component that uses useSearchParams
 const VerifyEmailContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -265,45 +282,30 @@ const VerifyEmailContent = () => {
 
   const verifyEmail = useCallback(async (token: string) => {
     try {
-      const response = await fetch(`/api/auth/verify-email?token=${token}`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
+      const response = await api.get(`/api/auth/verify-email?token=${token}`);
+      
+      setVerificationState({
+        status: 'success',
+        message: response.data.message || 'Email verified successfully! You can now log in to your account.'
       });
-
-      // Check if response is HTML (404 page) instead of JSON
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        console.error('Received non-JSON response:', response.status, response.statusText);
-        setVerificationState({
-          status: 'error',
-          message: 'Server error: API endpoint not found. Please contact support.'
-        });
-        return;
-      }
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setVerificationState({
-          status: 'success',
-          message: 'Email verified successfully! You can now log in to your account.'
-        });
+      
+      setTimeout(() => {
+        router.push('/login');
+      }, 3000);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error('Verification error:', error);
+      
+      if (error.response) {
+        const status = error.response.status;
+        const message = error.response.data?.message || 'An error occurred during verification.';
         
-        // Redirect to login page after 3 seconds
-        setTimeout(() => {
-          router.push('/login');
-        }, 3000);
-      } else {
-        // Handle different error cases
-        if (response.status === 400) {
+        if (status === 400) {
           setVerificationState({
             status: 'expired',
             message: 'Verification link has expired. Please request a new one.'
           });
-        } else if (response.status === 404) {
+        } else if (status === 404) {
           setVerificationState({
             status: 'invalid',
             message: 'Invalid verification token. Please check your link.'
@@ -311,16 +313,20 @@ const VerifyEmailContent = () => {
         } else {
           setVerificationState({
             status: 'error',
-            message: data.message || 'An error occurred during verification. Please try again.'
+            message: message
           });
         }
+      } else if (error.request) {
+        setVerificationState({
+          status: 'error',
+          message: 'Network error. Please check your connection and try again.'
+        });
+      } else {
+        setVerificationState({
+          status: 'error',
+          message: 'An unexpected error occurred. Please try again.'
+        });
       }
-    } catch (error) {
-      console.error('Verification error:', error);
-      setVerificationState({
-        status: 'error',
-        message: 'Network error. Please check your connection and try again.'
-      });
     }
   }, [router]);
 
@@ -340,28 +346,20 @@ const VerifyEmailContent = () => {
 
   const resendVerificationEmail = async () => {
     try {
-      const response = await fetch('/api/auth/resend-verification', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      await api.post('/api/auth/resend-verification');
+      
+      setVerificationState({
+        status: 'success',
+        message: 'Verification email sent! Please check your inbox.'
       });
-
-      if (response.ok) {
-        setVerificationState({
-          status: 'success',
-          message: 'Verification email sent! Please check your inbox.'
-        });
-      } else {
-        setVerificationState({
-          status: 'error',
-          message: 'Failed to resend verification email. Please try again later.'
-        });
-      }
-    } catch {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error('Resend verification error:', error);
+      
+      const message = error.response?.data?.message || 'Failed to resend verification email. Please try again later.';
       setVerificationState({
         status: 'error',
-        message: 'Network error. Please try again later.'
+        message: message
       });
     }
   };
@@ -468,7 +466,6 @@ const VerifyEmailContent = () => {
   );
 };
 
-// Loading fallback component
 const LoadingFallback = () => (
   <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -489,7 +486,6 @@ const LoadingFallback = () => (
   </div>
 );
 
-// Main page component with Suspense wrapper
 const VerifyEmailPage = () => {
   return (
     <Suspense fallback={<LoadingFallback />}>
