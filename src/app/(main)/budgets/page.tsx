@@ -77,9 +77,9 @@ export default function BudgetsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between">
         <h1 className="text-2xl font-bold">Budgets & Forecasting</h1>
-        <Button onClick={() => setIsDialogOpen(true)}>
+        <Button onClick={() => setIsDialogOpen(true)} className="bg-white text-gray-500 border border-[#f6dfcb] hover:bg-white cursor-pointer">
           <Plus className="h-4 w-4 mr-2" />
           Add Budget
         </Button>

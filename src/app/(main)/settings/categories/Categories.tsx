@@ -36,15 +36,15 @@ export default function CategoriesPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Categories</h1>
+      <div className="flex flex-wrap justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold  text-gray-700">Categories</h1>
         <div className="flex gap-2">
-          <Button onClick={() => defaultCategories()}>
+          <Button onClick={() => defaultCategories()} className="bg-white text-gray-500 border border-[#f6dfcb] hover:bg-white cursor-pointer">
             Seed Default Categories
           </Button>
           <Dialog>
             <DialogTrigger asChild>
-              <Button>Add Category</Button>
+              <Button className="bg-white text-gray-500 border border-[#f6dfcb] hover:bg-white cursor-pointer">Add Category</Button>
             </DialogTrigger>
             <DialogTitle></DialogTitle>
             <DialogContent>
@@ -68,21 +68,21 @@ export default function CategoriesPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Icon</TableHead>
-                  <TableHead>Color</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead className="border-r text-center text-gray-500 font-semibold">Name</TableHead>
+                  <TableHead className="border-r text-center text-gray-500 font-semibold">Icon</TableHead>
+                  <TableHead className="border-r text-center text-gray-500 font-semibold">Color</TableHead>
+                  <TableHead className="border-r text-center text-gray-500 font-semibold">Type</TableHead>
+                  <TableHead className="border-r text-center text-gray-500 font-semibold">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredCategories.map((category) => (
                   <TableRow key={category._id}>
-                    <TableCell>{category.name}</TableCell>
-                    <TableCell>
+                    <TableCell className="border-r text-center text-gray-500 font-semibold">{category.name}</TableCell>
+                    <TableCell className="border-r text-center text-gray-500 font-semibold">
                       <span className="text-xl">{category.icon}</span>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="border-r text-center text-gray-500 font-semibold">
                       <Badge
                         style={{ backgroundColor: category.color }}
                         className="text-white"
@@ -90,7 +90,7 @@ export default function CategoriesPage() {
                         {category.color}
                       </Badge>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="border-r text-center text-gray-500 font-semibold">
                       <Badge
                         variant={
                           category.type === "income" ? "default" : "destructive"
@@ -99,7 +99,7 @@ export default function CategoriesPage() {
                         {category.type}
                       </Badge>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="border-r text-center text-gray-500 font-semibold">
                       <Button variant="ghost">Edit</Button>
                       <Button
                         variant="ghost"
@@ -120,21 +120,21 @@ export default function CategoriesPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Icon</TableHead>
-                  <TableHead>Color</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead className="border-r text-center text-gray-500 font-semibold">Name</TableHead>
+                  <TableHead className="border-r text-center text-gray-500 font-semibold">Icon</TableHead>
+                  <TableHead className="border-r text-center text-gray-500 font-semibold">Color</TableHead>
+                  <TableHead className="border-r text-center text-gray-500 font-semibold">Type</TableHead>
+                  <TableHead className="border-r text-center text-gray-500 font-semibold">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredCategories.map((category) => (
                   <TableRow key={category._id}>
-                    <TableCell>{category.name}</TableCell>
-                    <TableCell>
+                    <TableCell className="border-r text-center text-gray-500 font-semibold">{category.name}</TableCell>
+                    <TableCell className="border-r text-center text-gray-500 font-semibold">
                       <span className="text-xl">{category.icon}</span>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="border-r text-center text-gray-500 font-semibold">
                       <Badge
                         style={{ backgroundColor: category.color }}
                         className="text-white"
@@ -142,7 +142,7 @@ export default function CategoriesPage() {
                         {category.color}
                       </Badge>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="border-r text-center text-gray-500 font-semibold">
                       <Badge
                         variant={
                           category.type === "income" ? "default" : "destructive"
@@ -151,7 +151,7 @@ export default function CategoriesPage() {
                         {category.type}
                       </Badge>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="border-r text-center text-gray-500 font-semibold">
                       <Button variant="ghost">Edit</Button>
                       <Button
                         variant="ghost"

@@ -287,7 +287,7 @@ export function ReminderForm({
           <Button type="button" variant="outline" onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isLoading} className="bg-white text-black border border-[#ed9c56] hover:bg-white cursor-pointer">
             {isLoading ? "Saving..." : "Save Reminder"}
           </Button>
         </div>

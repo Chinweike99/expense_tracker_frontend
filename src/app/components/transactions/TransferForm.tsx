@@ -163,7 +163,7 @@ export function TransferForm({
 )}
 
 
-      <Button type="submit" disabled={isLoading}>
+      <Button type="submit" disabled={isLoading} className="w-full border rounded-full border-[#f88f34] hover:bg-white cursor-pointer bg-white text-gray-600">
         {isLoading ? "Processing..." : "Complete Transfer"}
       </Button>
     </form>

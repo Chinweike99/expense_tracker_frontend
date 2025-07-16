@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Expense Tracker Pro",
   description: "Manage your finances with ease",
 };
+ 
 
 export default function RootLayout({
   children,
@@ -13,9 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    
-        <div>
-          <DashboardLayout>{children}</DashboardLayout>
-        </div>
+    <div className="flex justify-center bg-muted min-h-screen">
+      <div className="w-full max-w-[1440px]">
+        <DashboardLayout>{children}</DashboardLayout>
+      </div>
+    </div>
   );
 }
