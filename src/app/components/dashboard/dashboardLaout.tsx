@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useMediaQuery } from "@/app/hooks/use-media-query";
 import { useAuthStore } from "@/app/stores/auth.store";
 import { Sidebar } from "./sidebar";

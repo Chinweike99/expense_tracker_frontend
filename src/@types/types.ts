@@ -188,6 +188,7 @@ export interface BudgetAlert {
 
 export interface Reminder {
   id: string;
+  name: string;
   title: string;
   description?: string;
   amount?: number;

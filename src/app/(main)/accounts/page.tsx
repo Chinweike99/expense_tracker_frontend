@@ -1,8 +1,6 @@
 "use client";
 import { useEffect } from "react";
-// import { useAccountStore } from "@/stores/account.store";
 import { Button } from "@/components/ui/button";
-// import { AccountForm } from "@/components/accounts/AccountForm";
 import {
   Table,
   TableBody,

@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useCurrencyStore } from "@/app/stores/currency.store";
-// import { useCurrencyStore } from "@/stores/currency.store";
 
 const currencySchema = z.object({
   code: z.string().length(3, "Code must be 3 letters"),
