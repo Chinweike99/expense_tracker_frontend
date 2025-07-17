@@ -270,7 +270,7 @@ export function TransactionForm({
         </div>
       )}
 
-      <Button type="submit" disabled={isLoading} className="w-full">
+      <Button type="submit" disabled={isLoading} className="w-full bg-white text-gray-700 border rounded-full border-[#f88f34] hover:bg-white cursor-pointer">
         {isLoading ? "Processing..." : "Save Transaction"}
       </Button>
     </form>

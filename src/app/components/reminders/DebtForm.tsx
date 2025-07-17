@@ -236,7 +236,7 @@ export function DebtForm({
           <Button type="button" variant="outline" onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isLoading} className="bg-white text-black border border-[#f99843] hover:bg-white cursor-pointer">
             {isLoading ? "Saving..." : "Save Debt"}
           </Button>
         </div>

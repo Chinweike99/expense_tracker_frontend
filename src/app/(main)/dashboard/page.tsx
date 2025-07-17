@@ -8,9 +8,10 @@ import { useAccountStore } from "@/app/stores/account.stores";
 import { CustomBarChart } from "@/app/components/charts/Barchart";
 import { CustomPieChart } from "@/app/components/charts/PieChart";
 import { DateRangePicker } from "@/app/components/charts/DateRangePicker";
+import { motion, AnimatePresence, easeOut } from "framer-motion";
 
 export default function DashboardPage() {
-  const { dashboardStats, fetchDashboardStats} = useAnalyticsStore();
+  const { dashboardStats, fetchDashboardStats } = useAnalyticsStore();
   const { accounts } = useAccountStore();
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [selectedAccounts, setSelectedAccounts] = useState<string[]>([]);
@@ -89,11 +90,59 @@ export default function DashboardPage() {
       ]
     : dummyIncomeExpenseData;
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        duration: 0.3
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 20,
+      scale: 0.95
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.4,
+        ease: easeOut
+      }
+    }
+  };
+
+  const numberVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { 
+      opacity: 1, 
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        ease: easeOut
+      }
+    }
+  };
   return (
-    <div className="container mx-auto py-8 space-y-6 px-4 md:px-3 ">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+    <motion.div 
+      className="container mx-auto py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6 px-2 sm:px-4 md:px-6 lg:px-8 max-w-7xl"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      <motion.div 
+        className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 lg:gap-6"
+        variants={cardVariants}
+      >
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">Dashboard</h1>
+        <div className="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
           <DateRangePicker
             onSelect={setDateRange}
             initialFrom={dashboardStats?.currentMonth?.startDate}
@@ -103,7 +152,7 @@ export default function DashboardPage() {
             multiple
             value={selectedAccounts}
             onChange={handleAccountChange}
-            className="min-w-[200px] max-h-[30px] flex items-center justify-center"
+            className="min-w-[200px] max-h-[30px] flex items-center justify-center rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
           >
             <option value="">All Accounts</option>
             {accounts.map(account => (
@@ -119,174 +168,240 @@ export default function DashboardPage() {
               setDateRange(undefined);
             }}
             variant="outline"
+            className="whitespace-nowrap"
           >
             Clear Filters
           </Button>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className=" border-[#f57708]">
-          <CardHeader>
-            <CardTitle>Current Month</CardTitle>
-          </CardHeader>
-          <CardContent className="">
-            <div className="space-y-2 flex gap-5 ">
-              <div className="flex flex-col items-center">
-                <p className="text-sm text-muted-foreground">Income</p>
-                <p className="text-[18px] md:text-xl font-semibold text-green-500">
-                  {(dashboardStats?.currentMonth?.income || 5000)?.toLocaleString(undefined, {
+      <motion.div 
+        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"
+        variants={containerVariants}
+      >
+        <motion.div variants={cardVariants}>
+          <Card className="border-[#f57708] hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-sm sm:text-base lg:text-lg">Current Month</CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="grid grid-cols-1 gap-3 sm:gap-4">
+                <div className="flex flex-col items-center space-y-1">
+                  <p className="text-xs sm:text-sm text-muted-foreground">Income</p>
+                  <motion.p 
+                    className="text-sm sm:text-base lg:text-lg xl:text-xl font-semibold text-green-500 break-words text-center"
+                    variants={numberVariants}
+                  >
+                    {(dashboardStats?.currentMonth?.income || 5000)?.toLocaleString(undefined, {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </motion.p>
+                </div>
+                <div className="flex flex-col items-center space-y-1">
+                  <p className="text-xs sm:text-sm text-muted-foreground">Expenses</p>
+                  <motion.p 
+                    className="text-sm sm:text-base lg:text-lg xl:text-xl font-semibold text-red-500 break-words text-center"
+                    variants={numberVariants}
+                  >
+                    {(dashboardStats?.currentMonth?.expenses || 3200)?.toLocaleString(undefined, {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </motion.p>
+                </div>
+                <div className="flex flex-col items-center space-y-1">
+                  <p className="text-xs sm:text-sm text-muted-foreground">Net</p>
+                  <motion.p 
+                    className="text-sm sm:text-base lg:text-lg xl:text-xl font-semibold break-words text-center"
+                    variants={numberVariants}
+                  >
+                    {(dashboardStats?.currentMonth?.net || 1800)?.toLocaleString(undefined, {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </motion.p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div variants={cardVariants}>
+          <Card className="border-[#f57708] hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-sm sm:text-base lg:text-lg">Previous Month</CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="grid grid-cols-1 gap-3 sm:gap-4">
+                <div className="flex flex-col items-center space-y-1">
+                  <p className="text-xs sm:text-sm text-muted-foreground">Income</p>
+                  <motion.p 
+                    className="text-sm sm:text-base lg:text-lg xl:text-xl font-semibold text-green-500 break-words text-center"
+                    variants={numberVariants}
+                  >
+                    {(dashboardStats?.previousMonth?.income || 4800)?.toLocaleString(undefined, {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </motion.p>
+                </div>
+                <div className="flex flex-col items-center space-y-1">
+                  <p className="text-xs sm:text-sm text-muted-foreground">Expenses</p>
+                  <motion.p 
+                    className="text-sm sm:text-base lg:text-lg xl:text-xl font-semibold text-red-500 break-words text-center"
+                    variants={numberVariants}
+                  >
+                    {(dashboardStats?.previousMonth?.expenses || 3100)?.toLocaleString(undefined, {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </motion.p>
+                </div>
+                <div className="flex flex-col items-center space-y-1">
+                  <p className="text-xs sm:text-sm text-muted-foreground">Net</p>
+                  <motion.p 
+                    className="text-sm sm:text-base lg:text-lg xl:text-xl font-semibold break-words text-center"
+                    variants={numberVariants}
+                  >
+                    {(dashboardStats?.previousMonth?.net || 1700)?.toLocaleString(undefined, {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </motion.p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div variants={cardVariants}>
+          <Card className="border-[#f57708] hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-sm sm:text-base lg:text-lg">Trends</CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="grid grid-cols-1 gap-3 sm:gap-4">
+                <div className="flex flex-col items-center space-y-1">
+                  <p className="text-xs sm:text-sm text-muted-foreground text-center">Monthly Expense Trend</p>
+                  <motion.p 
+                    className={`text-sm sm:text-base lg:text-lg xl:text-xl font-semibold break-words text-center ${
+                      (dashboardStats?.trends?.monthlyExpense ?? 3.2) >= 0 
+                        ? "text-red-500" 
+                        : "text-green-500"
+                    }`}
+                    variants={numberVariants}
+                  >
+                    {(dashboardStats?.trends?.monthlyExpense ?? 3.2)?.toFixed(2)}%
+                  </motion.p>
+                </div>
+                <div className="flex flex-col items-center space-y-1">
+                  <p className="text-xs sm:text-sm text-muted-foreground text-center">Yearly Expense Trend</p>
+                  <motion.p 
+                    className={`text-sm sm:text-base lg:text-lg xl:text-xl font-semibold break-words text-center ${
+                      (dashboardStats?.trends?.yearlyExpense ?? 8.5) >= 0 
+                        ? "text-red-500" 
+                        : "text-green-500"
+                    }`}
+                    variants={numberVariants}
+                  >
+                    {(dashboardStats?.trends?.yearlyExpense ?? 8.5)?.toFixed(2)}%
+                  </motion.p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div variants={cardVariants}>
+          <Card className="border-[#f57708] hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-sm sm:text-base lg:text-lg">Total Balance</CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="flex flex-col items-center space-y-2 sm:space-y-3">
+                <motion.p 
+                  className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold break-words text-center"
+                  variants={numberVariants}
+                >
+                  {(dashboardStats?.totalBalance || 15250)?.toLocaleString(undefined, {
                     style: "currency",
                     currency: "USD",
                   })}
+                </motion.p>
+                <p className="text-xs sm:text-sm text-muted-foreground text-center">
+                  Across {dashboardStats?.accounts?.length || 3} accounts
                 </p>
               </div>
-              <div className="flex flex-col items-center">
-                <p className="text-sm text-muted-foreground">Expenses</p>
-                <p className="text-[18px] md:text-xl font-semibold text-red-500">
-                  {(dashboardStats?.currentMonth?.expenses || 3200)?.toLocaleString(undefined, {
-                    style: "currency",
-                    currency: "USD",
-                  })}
-                </p>
-              </div>
-              <div className="flex flex-col items-center">
-                <p className="text-sm text-muted-foreground">Net</p>
-                <p className="text-[18px] md:text-xl font-semibold">
-                  {(dashboardStats?.currentMonth?.net || 1800)?.toLocaleString(undefined, {
-                    style: "currency",
-                    currency: "USD",
-                  })}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </motion.div>
 
-        <Card className=" border-[#f57708]">
-          <CardHeader>
-            <CardTitle>Previous Month</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2 flex gap-5">
-              <div className="flex flex-col items-center">
-                <p className="text-md text-muted-foreground">Income</p>
-                <p className="text-[18px] md:text-xl font-semibold text-green-500">
-                  {(dashboardStats?.previousMonth?.income || 4800)?.toLocaleString(undefined, {
-                    style: "currency",
-                    currency: "USD",
-                  })}
-                </p>
+      <motion.div 
+        className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6"
+        variants={containerVariants}
+      >
+        <motion.div variants={cardVariants}>
+          <Card className="border-[#f57708] hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-sm sm:text-base lg:text-lg">Spending by Category</CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="w-full overflow-hidden">
+                <CustomPieChart 
+                  data={categorySpendingData}
+                  colors={categorySpendingData.map((cat: { color: string; }) => cat.color)}
+                />
               </div>
-              <div className="flex flex-col items-center">
-                <p className="text-sm text-muted-foreground">Expenses</p>
-                <p className="text-[18px] md:text-xl font-semibold text-red-500">
-                  {(dashboardStats?.previousMonth?.expenses || 3100)?.toLocaleString(undefined, {
-                    style: "currency",
-                    currency: "USD",
-                  })}
-                </p>
-              </div>
-              <div className="flex flex-col items-center">
-                <p className="text-sm text-muted-foreground">Net</p>
-                <p className="text-[18px] md:text-xl font-semibold">
-                  {(dashboardStats?.previousMonth?.net || 1700)?.toLocaleString(undefined, {
-                    style: "currency",
-                    currency: "USD",
-                  })}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+              <AnimatePresence>
+                {!hasValidCategoryData && (
+                  <motion.p 
+                    className="text-xs text-muted-foreground text-center mt-2"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    Real data would display when you create your categories
+                  </motion.p>
+                )}
+              </AnimatePresence>
+            </CardContent>
+          </Card>
+        </motion.div>
 
-        <Card className=" border-[#f57708]">
-          <CardHeader>
-            <CardTitle>Trends</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2 flex gap-5">
-              <div className="flex flex-col items-center">
-                <p className="text-sm text-muted-foreground">Monthly Expense Trend</p>
-                <p className={`text-[18px] md:text-xl font-semibold ${
-                  (dashboardStats?.trends?.monthlyExpense ?? 3.2) >= 0 
-                    ? "text-red-500" 
-                    : "text-green-500"
-                }`}>
-                  {(dashboardStats?.trends?.monthlyExpense ?? 3.2)?.toFixed(2)}%
-                </p>
+        <motion.div variants={cardVariants}>
+          <Card className="border-[#f57708] hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="pb-2 sm:pb-3">
+              <CardTitle className="text-sm sm:text-base lg:text-lg">Income vs Expenses</CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="w-full overflow-hidden">
+                <CustomBarChart
+                  data={incomeExpenseData}
+                  xAxisKey="name"
+                  barKeys={[
+                    { key: "income", color: "#10b981", name: "Income" },
+                    { key: "expenses", color: "#ef4444", name: "Expenses" },
+                  ]}
+                />
               </div>
-              <div className="flex flex-col items-center">
-                <p className="text-sm text-muted-foreground">Yearly Expense Trend</p>
-                <p className={`text-[18px] md:text-xl font-semibold ${
-                  (dashboardStats?.trends?.yearlyExpense ?? 8.5) >= 0 
-                    ? "text-red-500" 
-                    : "text-green-500"
-                }`}>
-                  {(dashboardStats?.trends?.yearlyExpense ?? 8.5)?.toFixed(2)}%
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className=" border-[#f57708]">
-          <CardHeader>
-            <CardTitle>Total Balance</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">
-              {(dashboardStats?.totalBalance || 15250)?.toLocaleString(undefined, {
-                style: "currency",
-                currency: "USD",
-              })}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Across {dashboardStats?.accounts?.length || 3} accounts
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className=" border-[#f57708]">
-          <CardHeader>
-            <CardTitle>Spending by Category</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CustomPieChart 
-              data={categorySpendingData}
-              colors={categorySpendingData.map((cat: { color: string; }) => cat.color)}
-            />
-            {!hasValidCategoryData && (
-              <p className="text-xs text-muted-foreground text-center mt-2">
-                Real data would display when you create your categories
-              </p>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card className=" border-[#f57708]">
-          <CardHeader>
-            <CardTitle>Income vs Expenses</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CustomBarChart
-              data={incomeExpenseData}
-              xAxisKey="name"
-              barKeys={[
-                { key: "income", color: "#10b981", name: "Income" },
-                { key: "expenses", color: "#ef4444", name: "Expenses" },
-              ]}
-            />
-            {!hasValidIncomeExpenseData && (
-              <p className="text-xs text-muted-foreground text-center mt-2">
-                Real datas would display when you create real expense and income
-              </p>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+              <AnimatePresence>
+                {!hasValidIncomeExpenseData && (
+                  <motion.p 
+                    className="text-xs text-muted-foreground text-center mt-2"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    Real data would display when you create real expense and income
+                  </motion.p>
+                )}
+              </AnimatePresence>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }

@@ -27,13 +27,11 @@ export function TopBar({ user }: TopBarProps) {
         <div className="flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Avatar className="h-8 w-8">
+              <Avatar className=" w-full ">
                 <AvatarImage src={user?.name} />
-                <AvatarFallback>
-                  {user?.name
-                    ?.split(" ")
-                    .map((n) => n[0])
-                    .join("")}
+                <AvatarFallback className="flex flex-col items-start bg-white justify-left w-full px-5 text-sm font-semibold rounded-md ">
+                  <span>{user?.name}</span>
+                  <span>{user?.email}</span>
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>

@@ -29,15 +29,15 @@ export default function CurrenciesPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Currencies</h1>
+      <div className="flex flex-wrap justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-700">Currencies</h1>
         <div className="flex gap-2">
-          <Button onClick={() => updateExchangeRates()}>
+          <Button onClick={() => updateExchangeRates()} className="bg-white text-gray-500 border border-[#f6dfcb] hover:bg-white cursor-pointer">
             Update Exchange Rates
           </Button>
           <Dialog>
             <DialogTrigger asChild>
-              <Button>Add Currency</Button>
+              <Button className="bg-white text-gray-500 border border-[#f6dfcb] hover:bg-white cursor-pointer">Add Currency</Button>
             </DialogTrigger>
             <DialogContent>
             <DialogTitle></DialogTitle>
@@ -51,22 +51,22 @@ export default function CurrenciesPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Code</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Symbol</TableHead>
-              <TableHead>Exchange Rate</TableHead>
-              <TableHead>Primary</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead className="border-r text-center text-gray-500 font-semibold">Code</TableHead>
+              <TableHead className="border-r text-center text-gray-500 font-semibold">Name</TableHead>
+              <TableHead className="border-r text-center text-gray-500 font-semibold">Symbol</TableHead>
+              <TableHead className="border-r text-center text-gray-500 font-semibold">Exchange Rate</TableHead>
+              <TableHead className="border-r text-center text-gray-500 font-semibold">Primary</TableHead>
+              <TableHead className="border-r text-center text-gray-500 font-semibold">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {currencies.map((currency) => (
               <TableRow key={currency.code}>
-                <TableCell>{currency.code}</TableCell>
-                <TableCell>{currency.name}</TableCell>
-                <TableCell>{currency.symbol}</TableCell>
-                <TableCell>{currency.exchangeRate?.toFixed(4)}</TableCell>
-                <TableCell>
+                <TableCell className="border-r text-center text-gray-500 font-semibold" >{currency.code}</TableCell>
+                <TableCell className="border-r text-center text-gray-500 font-semibold" >{currency.name}</TableCell>
+                <TableCell className="border-r text-center text-gray-500 font-semibold" >{currency.symbol}</TableCell>
+                <TableCell className="border-r text-center text-gray-500 font-semibold" >{currency.exchangeRate?.toFixed(4)}</TableCell>
+                <TableCell className="border-r text-center text-gray-500 font-semibold" >
                   {currency.isPrimary ? (
                     <span className="text-green-500">Primary</span>
                   ) : (
@@ -78,7 +78,7 @@ export default function CurrenciesPage() {
                     </Button>
                   )}
                 </TableCell>
-                <TableCell>
+                <TableCell className="border-r text-center text-gray-500 font-semibold">
                   {!currency.isPrimary && (
                     <Button
                       variant="ghost"
