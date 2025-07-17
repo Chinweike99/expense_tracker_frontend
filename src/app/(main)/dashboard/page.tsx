@@ -8,7 +8,7 @@ import { useAccountStore } from "@/app/stores/account.stores";
 import { CustomBarChart } from "@/app/components/charts/Barchart";
 import { CustomPieChart } from "@/app/components/charts/PieChart";
 import { DateRangePicker } from "@/app/components/charts/DateRangePicker";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, easeOut } from "framer-motion";
 
 export default function DashboardPage() {
   const { dashboardStats, fetchDashboardStats } = useAnalyticsStore();
@@ -114,7 +114,7 @@ export default function DashboardPage() {
       scale: 1,
       transition: {
         duration: 0.4,
-        ease: "easeOut"
+        ease: easeOut
       }
     }
   };
@@ -126,11 +126,10 @@ export default function DashboardPage() {
       scale: 1,
       transition: {
         duration: 0.5,
-        ease: "easeOut"
+        ease: easeOut
       }
     }
   };
-
   return (
     <motion.div 
       className="container mx-auto py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6 px-2 sm:px-4 md:px-6 lg:px-8 max-w-7xl"
