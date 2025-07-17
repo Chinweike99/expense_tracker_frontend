@@ -33,11 +33,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Reminder } from "@/@types/types";
 import { useAccountStore } from "@/app/stores/account.stores";
 import { useCategoryStore } from "@/app/stores/category.store";
-// import { Reminder } from "@/@types/reminders";
-// import { useAccounts } from "@/app/(main)/api/accounts";
-// import { useCategories } from "@/app/(main)/api/transactions";
 
 const formSchema = z.object({
+  name: z.string().min(3),
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
   amount: z.number().optional(),
@@ -67,6 +65,7 @@ export function ReminderForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: initialData?.name || "",
       title: initialData?.title || "",
       description: initialData?.description || "",
       amount: initialData?.amount || undefined,
@@ -81,6 +80,20 @@ export function ReminderForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g. Reminder Name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="title"
@@ -287,7 +300,7 @@ export function ReminderForm({
           <Button type="button" variant="outline" onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isLoading} className="bg-white text-black border border-[#ed9c56] hover:bg-white cursor-pointer">
             {isLoading ? "Saving..." : "Save Reminder"}
           </Button>
         </div>

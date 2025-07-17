@@ -74,12 +74,12 @@ export default function TransactionsPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-wrap justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Transactions</h1>
         <div className="flex gap-2">
           <Dialog>
             <DialogTrigger asChild>
-              <Button>Add Transaction</Button>
+              <Button className="bg-white text-gray-500 border border-[#f6dfcb] hover:bg-white cursor-pointer">Add Transaction</Button>
             </DialogTrigger>
             <DialogTitle></DialogTitle>
             <DialogContent>
@@ -109,12 +109,12 @@ export default function TransactionsPage() {
             <Table>
               <TableHeader className="bg-[#f0f1f1]">
                 <TableRow>
-                  <TableHead className="border-r">Date</TableHead>
-                  <TableHead className="border-r">Description</TableHead>
-                  <TableHead className="border-r">Amount</TableHead>
-                  <TableHead className="border-r">Account</TableHead>
-                  <TableHead className="border-r">Type</TableHead>
-                  <TableHead className="border-r">Actions</TableHead>
+                  <TableHead className="border-r text-center">Date</TableHead>
+                  <TableHead className="border-r text-center">Description</TableHead>
+                  <TableHead className="border-r text-center">Amount</TableHead>
+                  <TableHead className="border-r text-center">Account</TableHead>
+                  <TableHead className="border-r text-center">Type</TableHead>
+                  <TableHead className="border-r text-center">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -175,13 +175,13 @@ export default function TransactionsPage() {
             <Table>
               <TableHeader className="bg-[#f0f1f1]">
                 <TableRow>
-                  <TableHead className="border-r">Description</TableHead>
-                  <TableHead className="border-r">Amount</TableHead>
-                  <TableHead className="border-r">Frequency</TableHead>
-                  <TableHead className="border-r">Next Occurrence</TableHead>
-                  <TableHead className="border-r">Account</TableHead>
-                  <TableHead className="border-r">Category</TableHead>
-                  <TableHead className="border-r">Actions</TableHead>
+                  <TableHead className="border-r text-center">Description</TableHead>
+                  <TableHead className="border-r text-center">Amount</TableHead>
+                  <TableHead className="border-r text-center">Frequency</TableHead>
+                  <TableHead className="border-r text-center">Next Occurrence</TableHead>
+                  <TableHead className="border-r text-center">Account</TableHead>
+                  <TableHead className="border-r text-center">Category</TableHead>
+                  <TableHead className="border-r text-center">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

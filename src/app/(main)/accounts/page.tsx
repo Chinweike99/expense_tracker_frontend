@@ -1,8 +1,6 @@
 "use client";
 import { useEffect } from "react";
-// import { useAccountStore } from "@/stores/account.store";
 import { Button } from "@/components/ui/button";
-// import { AccountForm } from "@/components/accounts/AccountForm";
 import {
   Table,
   TableBody,
@@ -28,7 +26,7 @@ export default function AccountsPage() {
         <h1 className="text-2xl font-bold">Accounts</h1>
         <Dialog>
           <DialogTrigger asChild>
-            <Button>Add Account</Button>
+            <Button className="bg-white text-gray-500 border border-[#f6dfcb] hover:bg-white cursor-pointer">Add Account</Button>
           </DialogTrigger>
           <DialogContent>
           <DialogTitle>Add New Account</DialogTitle>
@@ -41,28 +39,28 @@ export default function AccountsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Balance</TableHead>
-              <TableHead>Currency</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead className="border-r text-center text-gray-500 font-semibold">Name</TableHead>
+              <TableHead className="border-r text-center text-gray-500 font-semibold">Type</TableHead>
+              <TableHead className="border-r text-center text-gray-500 font-semibold">Balance</TableHead>
+              <TableHead className="border-r text-center text-gray-500 font-semibold">Currency</TableHead>
+              <TableHead className=" text-center text-gray-500 font-semibold">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {accounts.map((account) => (
               <TableRow key={account._id}>
-                <TableCell>{account.name}</TableCell>
-                <TableCell className="capitalize">
+                <TableCell className="border-r text-center text-gray-500 font-semibold">{account.name}</TableCell>
+                <TableCell className="capitalize border-r text-center text-gray-500 font-semibold">
                   {account.type.replace("-", " ")}
                 </TableCell>
-                <TableCell>
+                <TableCell className="border-r text-center text-gray-500 font-semibold">
                   {account.balance.toLocaleString(undefined, {
                     style: "currency",
                     currency: account.currency,
                   })}
                 </TableCell>
-                <TableCell>{account.currency}</TableCell>
-                <TableCell>
+                <TableCell className="border-r text-center text-gray-500 font-semibold">{account.currency}</TableCell>
+                <TableCell className="border-r text-center text-gray-500 font-semibold">
                   <Button variant="ghost">Edit</Button>
                   <Button
                     variant="ghost"

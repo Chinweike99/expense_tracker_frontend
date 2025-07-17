@@ -130,11 +130,11 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle>Current Month</CardTitle>
           </CardHeader>
-          <CardContent className="">
+          <CardContent className="text-center">
             <div className="space-y-2 flex gap-5 ">
               <div className="flex flex-col items-center">
                 <p className="text-sm text-muted-foreground">Income</p>
-                <p className="text-[18px] md:text-xl font-semibold text-green-500">
+                <p className="text-[14px] md:text-xl font-semibold text-green-500">
                   {(dashboardStats?.currentMonth?.income || 5000)?.toLocaleString(undefined, {
                     style: "currency",
                     currency: "USD",
@@ -143,7 +143,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex flex-col items-center">
                 <p className="text-sm text-muted-foreground">Expenses</p>
-                <p className="text-[18px] md:text-xl font-semibold text-red-500">
+                <p className="text-[14px] md:text-xl font-semibold text-red-500">
                   {(dashboardStats?.currentMonth?.expenses || 3200)?.toLocaleString(undefined, {
                     style: "currency",
                     currency: "USD",
@@ -152,7 +152,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex flex-col items-center">
                 <p className="text-sm text-muted-foreground">Net</p>
-                <p className="text-[18px] md:text-xl font-semibold">
+                <p className="text-[14px] md:text-xl font-semibold">
                   {(dashboardStats?.currentMonth?.net || 1800)?.toLocaleString(undefined, {
                     style: "currency",
                     currency: "USD",
@@ -171,7 +171,7 @@ export default function DashboardPage() {
             <div className="space-y-2 flex gap-5">
               <div className="flex flex-col items-center">
                 <p className="text-md text-muted-foreground">Income</p>
-                <p className="text-[18px] md:text-xl font-semibold text-green-500">
+                <p className="text-[14px] md:text-xl font-semibold text-green-500">
                   {(dashboardStats?.previousMonth?.income || 4800)?.toLocaleString(undefined, {
                     style: "currency",
                     currency: "USD",
@@ -180,7 +180,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex flex-col items-center">
                 <p className="text-sm text-muted-foreground">Expenses</p>
-                <p className="text-[18px] md:text-xl font-semibold text-red-500">
+                <p className="text-[14px] md:text-xl font-semibold text-red-500">
                   {(dashboardStats?.previousMonth?.expenses || 3100)?.toLocaleString(undefined, {
                     style: "currency",
                     currency: "USD",
@@ -189,7 +189,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex flex-col items-center">
                 <p className="text-sm text-muted-foreground">Net</p>
-                <p className="text-[18px] md:text-xl font-semibold">
+                <p className="text-[14px] md:text-xl font-semibold">
                   {(dashboardStats?.previousMonth?.net || 1700)?.toLocaleString(undefined, {
                     style: "currency",
                     currency: "USD",
@@ -205,10 +205,10 @@ export default function DashboardPage() {
             <CardTitle>Trends</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2 flex gap-5">
+            <div className="space-y-2 flex flex-wrap gap-5">
               <div className="flex flex-col items-center">
                 <p className="text-sm text-muted-foreground">Monthly Expense Trend</p>
-                <p className={`text-[18px] md:text-xl font-semibold ${
+                <p className={`text-[14px] md:text-xl font-semibold ${
                   (dashboardStats?.trends?.monthlyExpense ?? 3.2) >= 0 
                     ? "text-red-500" 
                     : "text-green-500"
@@ -218,7 +218,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex flex-col items-center">
                 <p className="text-sm text-muted-foreground">Yearly Expense Trend</p>
-                <p className={`text-[18px] md:text-xl font-semibold ${
+                <p className={`text-[14px] md:text-xl font-semibold ${
                   (dashboardStats?.trends?.yearlyExpense ?? 8.5) >= 0 
                     ? "text-red-500" 
                     : "text-green-500"

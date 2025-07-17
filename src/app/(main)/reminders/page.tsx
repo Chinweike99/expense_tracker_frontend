@@ -96,6 +96,7 @@ export default function RemindersPage() {
                 setEditingItem(null);
                 setIsDialogOpen(true);
               }}
+              className="bg-white text-gray-500 border border-[#f6dfcb] hover:bg-white cursor-pointer"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add {activeTab === "reminders" ? "Reminder" : "Debt"}
