@@ -29,8 +29,9 @@ export function TopBar({ user }: TopBarProps) {
             <DropdownMenuTrigger>
               <Avatar className=" w-full ">
                 <AvatarImage src={user?.name} />
-                <AvatarFallback className="w-full px-5 text-sm font-semibold rounded-md ml-4">
-                  {user?.name}
+                <AvatarFallback className="flex flex-col items-start bg-white justify-left w-full px-5 text-sm font-semibold rounded-md ">
+                  <span>{user?.name}</span>
+                  <span>{user?.email}</span>
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
