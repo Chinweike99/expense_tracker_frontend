@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MobileSidebar } from "./mobileSidebar";
 import { useMediaQuery } from "@/app/hooks/use-media-query";
-import { signOut } from "@/app/lib/auth";
-// import { signOut } from "@/lib/auth";
+import { useAuthStore } from "@/app/stores/auth.store";
+import { useRouter } from "next/navigation";
 
 interface TopBarProps {
   user: User | null;
@@ -19,6 +19,13 @@ interface TopBarProps {
 
 export function TopBar({ user }: TopBarProps) {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const { logout } = useAuthStore();
+    const navigate = useRouter();
+  
+    const handleLogout = () => {
+      logout();
+      navigate.push("/");
+    };
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
@@ -31,12 +38,12 @@ export function TopBar({ user }: TopBarProps) {
                 <AvatarImage src={user?.name} />
                 <AvatarFallback className="flex flex-col items-start bg-white justify-left w-full px-5 text-sm font-semibold rounded-md ">
                   <span>{user?.name}</span>
-                  <span>{user?.email}</span>
+                  {/* <span>{user?.email}</span> */}
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => signOut()} className="text-red-500">
+              <DropdownMenuItem onClick={handleLogout} className="text-red-500">
                 Sign Out
               </DropdownMenuItem>
             </DropdownMenuContent>

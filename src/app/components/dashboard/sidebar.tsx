@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +14,7 @@ import {
   LogOut,
   User,
 } from "lucide-react";
-import { signOut } from "@/app/lib/auth";
+import { useAuthStore } from "@/app/stores/auth.store";
 
 const navItems = [
   {
@@ -56,6 +56,13 @@ const navItems = [
 
 export function Sidebar({ className }: { className?: string }) {
   const pathname = usePathname();
+  const { logout } = useAuthStore();
+  const navigate = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    navigate.push("/");
+  };
 
   return (
     <div
@@ -83,7 +90,6 @@ export function Sidebar({ className }: { className?: string }) {
             <Link href={item.href}>
               <item.icon className="w-8 h-8 mr-2 font-bold text-[#f57708]" />
               <span className="flex flex-col">{item.name}</span>
-              
             </Link>
           </Button>
         ))}
@@ -92,7 +98,7 @@ export function Sidebar({ className }: { className?: string }) {
         <Button
           variant="ghost"
           className="w-full justify-start text-red-600"
-          onClick={() => signOut()}
+          onClick={handleLogout}
         >
           <LogOut className="w-4 h-4 mr-2" />
           Sign Out

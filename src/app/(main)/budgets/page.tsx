@@ -61,7 +61,7 @@ export default function BudgetsPage() {
 
   const handleEdit = (budgetProgress: BudgetProgress) => {
     const originalBudget: Budget = {
-      id: budgetProgress.id,
+      _id: budgetProgress._id,
       name: budgetProgress.name,
       amount: budgetProgress.amount,
       category: budgetProgress.category,
@@ -89,7 +89,7 @@ export default function BudgetsPage() {
         <div className="space-y-2">
           {alerts.map((alert) => (
             <Alert
-              key={alert.id}
+              key={alert._id}
               variant={alert.type === "overspend" ? "destructive" : "default"}
             >
               <AlertCircle className="h-4 w-4" />
@@ -117,7 +117,7 @@ export default function BudgetsPage() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {budgetProgress.map((budget) => (
                 <BudgetCard
-                  key={budget.id}
+                  key={budget._id}
                   budget={budget}
                   onEdit={handleEdit}
                 />

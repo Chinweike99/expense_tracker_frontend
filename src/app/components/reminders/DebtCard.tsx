@@ -27,20 +27,20 @@ export function DebtCard({
   onRecordPayment,
   onViewPlan,
 }: DebtCardProps) {
-  
   const deleteDebt = useDeleteDebts();
 
   const handleDelete = () => {
-    deleteDebt.mutate(debt.id, {
+    deleteDebt.mutate(debt._id, {
       onSuccess: () => {
-        toast.success("Your debt has been deleted successfully")
+        toast.success("Your debt has been deleted successfully");
       },
     });
   };
 
   const percentagePaid =
     ((debt.initialAmount - debt.currentAmount) / debt.initialAmount) * 100;
-  const isOverdue = new Date(debt.dueDate) < new Date() && !debt.isPaid;
+  const isOverdue =
+    new Date(debt.endDate as string) < new Date() && !debt.isPaid;
 
   return (
     <Card className={isOverdue ? "border-red-500" : ""}>
@@ -87,17 +87,18 @@ export function DebtCard({
         <div className="flex justify-between items-center mb-2">
           <div>
             <p className="text-sm">
-              Due: {format(new Date(debt.dueDate), "MMM dd, yyyy")}
+              Due: {format(new Date(debt.endDate as string), "MMM dd, yyyy")}
             </p>
-            {debt.creditor && (
+            {debt.lender && (
               <p className="text-sm text-muted-foreground">
-                Creditor: {debt.creditor}
+                Creditor: {debt.lender}
               </p>
             )}
           </div>
           <div className="text-right">
             <p className="text-sm font-medium">
-              ${debt.currentAmount.toFixed(2)} / ${debt.initialAmount.toFixed(2)}
+              ${debt.currentAmount.toFixed(2)} / $
+              {debt.initialAmount.toFixed(2)}
             </p>
             <Badge variant="outline" className="mt-1">
               {debt.interestRate ? `${debt.interestRate}% APR` : "No interest"}

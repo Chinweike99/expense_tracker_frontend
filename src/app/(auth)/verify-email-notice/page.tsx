@@ -1,7 +1,5 @@
-
 "use client";
 import Link from "next/link";
-
 
 const VerifyEmailNotice = () => {
   return (
@@ -28,8 +26,9 @@ const VerifyEmailNotice = () => {
               </svg>
             </div>
             <p className="mt-4 text-center text-gray-600">
-              We&apos;ve sent a verification link to your email address. Please check your inbox and click
-              on the link to verify your account.
+              We&apos;ve sent a verification link to your email address. Please
+              check your inbox or spam, and click on the link to verify your
+              account.
             </p>
             {/* <p className="mt-4 text-center text-sm text-gray-500">
               Didn't receive the email?{" "}
@@ -50,6 +49,6 @@ const VerifyEmailNotice = () => {
       </div>
     </div>
   );
-}
+};
 
 export default VerifyEmailNotice;

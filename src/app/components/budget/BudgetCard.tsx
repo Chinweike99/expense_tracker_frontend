@@ -23,7 +23,7 @@ export function BudgetCard({ budget, onEdit }: BudgetCardProps) {
   const deleteBudget = useDeleteBudget();
 
   const handleDelete = () => {
-    deleteBudget.mutate(budget.id, {
+    deleteBudget.mutate(budget._id, {
       onSuccess: () => {
         toast.success("Budget deleted successfully");
       },

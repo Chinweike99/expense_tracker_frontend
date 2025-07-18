@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Expense Tracker Pro
+
+A comprehensive personal finance management application built with **Next.js**, **TypeScript**, **Node.js** and **MongoDB**.  
+**Xpense Pro** helps users monitor spending, create budgets, set financial goals, and gain insights into their financial habits.
+
+## Features
+
+### Core Functionality
+- **Transaction Tracking**: Record income and expenses with categories
+- **Multi-Account Support**: Manage bank accounts, credit cards, and cash
+- **Recurring Transactions**: Automate regular bills and income
+
+### Analytics & Insights
+- **Interactive Dashboards**: Visualize spending patterns
+- **Custom Reports**: Filter by date, category, or account
+- **Spending Trends**: Compare periods and identify habits
+
+### Budgeting Tools
+- **Category Budgets**: Set limits for spending categories
+- **Budget Rollovers**: Carry over unused amounts
+- **Forecasting**: Predict future spending based on trends
+- **Alerts & Notifications**: Get warned before overspending
+
+### Smart Reminders
+- **Bill Reminders**: Never miss a payment
+- **Debt Tracking**: Monitor loans and credit cards
+
+### Smart UI & State
+- **TanStack Query (React Query)**: Powerful data fetching and caching
+- **Zustand**: Lightweight global state management
+- **shadcn/ui**: Accessible, beautifully styled UI components (built on Radix UI)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- **Node.js** v18+
+- **MongoDB Atlas** account or local MongoDB instance
+- **npm**, **yarn**, or **pnpm**
+
+### Installation
+
+Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone https://github.com/yourusername/expense-tracker-pro.git
+cd expense-tracker-pro
