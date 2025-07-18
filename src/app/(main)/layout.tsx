@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DashboardLayout } from "../components/dashboard/dashboardLaout";
+import ProtectedRoute from "../components/protected/Protected";
 
 
 export const metadata: Metadata = {
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <div className="flex justify-center bg-muted min-h-screen">
       <div className="w-full max-w-[1440px]">
+        <ProtectedRoute>
         <DashboardLayout>{children}</DashboardLayout>
+        </ProtectedRoute>
       </div>
     </div>
   );

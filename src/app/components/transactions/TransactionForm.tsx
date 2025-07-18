@@ -72,7 +72,18 @@ export function TransactionForm({
 
   const onSubmit = async (values: TransactionFormData) => {
     try {
-      await createTransaction({transaction: values});
+      // Transform the data to match backend expectations
+      const transformedData = {
+        ...values,
+        date: values.date.toISOString(),
+        amount: Number(values.amount), 
+        ...(values.tags && values.tags.length > 0 && { tags: values.tags }),
+        ...(values.notes && values.notes.trim() && { notes: values.notes.trim() }),
+        ...(values.isRecurring && { isRecurring: values.isRecurring }),
+        ...(values.isRecurring && values.frequency && { frequency: values.frequency }),
+      };
+      
+      await createTransaction(transformedData);
       onSuccess?.();
     } catch (error) {
       console.error("Transaction creation failed:", error);
@@ -88,7 +99,7 @@ export function TransactionForm({
             name="type"
             control={control}
             render={({ field }) => (
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
@@ -167,8 +178,15 @@ export function TransactionForm({
             <Input
               type="number"
               step="0.01"
+              min="0"
+              placeholder="0.00"
               {...field}
-              onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+              onChange={(e) => {
+                const value = e.target.value;
+                const numValue = value === '' ? 0 : parseFloat(value);
+                field.onChange(isNaN(numValue) ? 0 : numValue);
+              }}
+              value={field.value || ''}
             />
           )}
         />
@@ -184,7 +202,7 @@ export function TransactionForm({
             name="account"
             control={control}
             render={({ field }) => (
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Account" />
                 </SelectTrigger>
@@ -209,14 +227,14 @@ export function TransactionForm({
             name="category"
             control={control}
             render={({ field }) => (
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
                 <SelectContent>
                   {filteredCategories.map((category) => (
                     <SelectItem key={category._id} value={category._id}>
-                      {category.type}
+                      {category.name} {/* Changed from category.type to category.name */}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -227,6 +245,20 @@ export function TransactionForm({
             <p className="text-sm text-red-500">{errors.category.message}</p>
           )}
         </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="notes">Notes (Optional)</Label>
+        <Controller
+          name="notes"
+          control={control}
+          render={({ field }) => (
+            <Input placeholder="Additional notes..." {...field} />
+          )}
+        />
+        {errors.notes && (
+          <p className="text-sm text-red-500">{errors.notes.message}</p>
+        )}
       </div>
 
       <div className="flex items-center space-x-2">
@@ -251,7 +283,7 @@ export function TransactionForm({
             name="frequency"
             control={control}
             render={({ field }) => (
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select frequency" />
                 </SelectTrigger>

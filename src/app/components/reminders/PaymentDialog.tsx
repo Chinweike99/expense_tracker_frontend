@@ -50,7 +50,7 @@ import { toast } from "react-toastify";
     const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-        amount: debt?.minimumPayment || 0,
+        amount: debt?.paymentAmount || 0,
         date: new Date(),
         notes: "",
       },
@@ -61,12 +61,13 @@ import { toast } from "react-toastify";
   
       recordPayment.mutate(
         {
-          debtId: debt.id,
+          debtId: debt._id,
           payment: {
               amount: values.amount,
               date: values.date.toISOString(),
               notes: values.notes,
-              debtId: ""
+              debtId: "",
+              _id: ""
           },
         },
         {

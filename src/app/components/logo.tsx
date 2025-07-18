@@ -31,7 +31,7 @@ export function Logo() {
           <circle cx="12" cy="12" r="4" />
         </svg>
       </motion.div>
-      <span className="text-xl font-bold">ExpensePro</span>
+      <span className="text-xl font-bold">XpensePro</span>
     </Link>
   );
 }

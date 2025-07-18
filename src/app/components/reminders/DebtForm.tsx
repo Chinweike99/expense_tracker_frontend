@@ -28,12 +28,25 @@ import { useAccountStore } from "@/app/stores/account.stores";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
+  type: z.enum(['loan', 'credit-card', 'mortgage', 'personal'], {
+    required_error: "Debt type is required",
+  }),
   initialAmount: z.number().min(0.01, "Amount must be greater than 0"),
-  interestRate: z.number().min(0).optional(),
-  minimumPayment: z.number().min(0).optional(),
-  dueDate: z.date(),
-  creditor: z.string().optional(),
+  currentAmount: z.number().min(0, "Current amount must be 0 or greater"),
+  interestRate: z.number().min(0).max(100, "Interest rate must be between 0 and 100"),
+  paymentFrequency: z.enum(['weekly', 'bi-weekly', 'monthly', 'yearly'], {
+    required_error: "Payment frequency is required",
+  }),
+  paymentAmount: z.number().min(0.01, "Payment amount must be greater than 0"),
+  startDate: z.date({
+    required_error: "Start date is required",
+  }),
+  endDate: z.date({
+    required_error: "End date is required",
+  }),
+  lender: z.string().min(1, "Lender is required"),
   accountId: z.string().optional(),
+  notes: z.string().optional(),
 });
 
 interface DebtFormProps {
@@ -55,12 +68,17 @@ export function DebtForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: initialData?.name || "",
+      type: initialData?.type || undefined,
       initialAmount: initialData?.initialAmount || 0,
-      interestRate: initialData?.interestRate || undefined,
-      minimumPayment: initialData?.minimumPayment || undefined,
-      dueDate: initialData?.dueDate ? new Date(initialData.dueDate) : new Date(),
-      creditor: initialData?.creditor || undefined,
+      currentAmount: initialData?.currentAmount || initialData?.initialAmount || 0,
+      interestRate: initialData?.interestRate || 0,
+      paymentFrequency: initialData?.paymentFrequency || undefined,
+      paymentAmount: initialData?.paymentAmount || 0,
+      startDate: initialData?.startDate ? new Date(initialData.startDate) : new Date(),
+      endDate: initialData?.endDate ? new Date(initialData.endDate) : undefined,
+      lender: initialData?.lender || "",
       accountId: initialData?.accountId || undefined,
+      notes: initialData?.notes || "",
     },
   });
 
@@ -83,14 +101,83 @@ export function DebtForm({
 
         <FormField
           control={form.control}
-          name="initialAmount"
+          name="type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Initial Amount</FormLabel>
+              <FormLabel>Debt Type</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select debt type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="loan">Loan</SelectItem>
+                  <SelectItem value="credit-card">Credit Card</SelectItem>
+                  <SelectItem value="mortgage">Mortgage</SelectItem>
+                  <SelectItem value="personal">Personal</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="initialAmount"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Initial Amount</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min="0.01"
+                    step="0.01"
+                    placeholder="0.00"
+                    {...field}
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="currentAmount"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Current Amount</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
+                    {...field}
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <FormField
+          control={form.control}
+          name="interestRate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Interest Rate (%)</FormLabel>
               <FormControl>
                 <Input
                   type="number"
-                  min="0.01"
+                  min="0"
+                  max="100"
                   step="0.01"
                   placeholder="0.00"
                   {...field}
@@ -105,22 +192,23 @@ export function DebtForm({
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
-            name="interestRate"
+            name="paymentFrequency"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Interest Rate (%)</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    placeholder="0.00"
-                    {...field}
-                    onChange={(e) =>
-                      field.onChange(e.target.value ? parseFloat(e.target.value) : undefined)
-                    }
-                  />
-                </FormControl>
+                <FormLabel>Payment Frequency</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select frequency" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="weekly">Weekly</SelectItem>
+                    <SelectItem value="bi-weekly">Bi-weekly</SelectItem>
+                    <SelectItem value="monthly">Monthly</SelectItem>
+                    <SelectItem value="yearly">Yearly</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -128,20 +216,18 @@ export function DebtForm({
 
           <FormField
             control={form.control}
-            name="minimumPayment"
+            name="paymentAmount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Minimum Payment</FormLabel>
+                <FormLabel>Payment Amount</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
-                    min="0"
+                    min="0.01"
                     step="0.01"
                     placeholder="0.00"
                     {...field}
-                    onChange={(e) =>
-                      field.onChange(e.target.value ? parseFloat(e.target.value) : undefined)
-                    }
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   />
                 </FormControl>
                 <FormMessage />
@@ -150,52 +236,94 @@ export function DebtForm({
           />
         </div>
 
-        <FormField
-          control={form.control}
-          name="dueDate"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Due Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) => date < new Date("2000-01-01")}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="startDate"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Start Date</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP")
+                        ) : (
+                          <span>Pick start date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) => date < new Date("2000-01-01")}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="endDate"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>End Date</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP")
+                        ) : (
+                          <span>Pick end date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) => date < new Date("2000-01-01")}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
-          name="creditor"
+          name="lender"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Creditor (Optional)</FormLabel>
+              <FormLabel>Lender</FormLabel>
               <FormControl>
                 <Input placeholder="e.g. Bank of America" {...field} />
               </FormControl>
@@ -227,6 +355,20 @@ export function DebtForm({
                   ))}
                 </SelectContent>
               </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="notes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Notes (Optional)</FormLabel>
+              <FormControl>
+                <Input placeholder="Additional notes..." {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

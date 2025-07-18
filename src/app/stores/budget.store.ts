@@ -105,7 +105,7 @@ export const useUpdateBudget = () => {
 
   return useMutation({
     mutationFn: async (budget: Budget) => {
-      const { data } = await api.put<Budget>(`/api/budgets/${budget.id}`, budget);
+      const { data } = await api.put<Budget>(`/api/budgets/${budget._id}`, budget);
       return data;
     },
     onSuccess: () => {

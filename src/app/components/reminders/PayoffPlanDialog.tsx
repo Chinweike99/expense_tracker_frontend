@@ -17,7 +17,7 @@ import { useDebtPayoffPlan } from "@/app/stores/reminders.store";
   
   export function PayoffPlanDialog({ debt, onClose }: PayoffPlanDialogProps) {
     const { data: payoffPlan, isLoading } = useDebtPayoffPlan(
-      debt?.id || "",
+      debt?._id || "",
       !!debt
     );
   
