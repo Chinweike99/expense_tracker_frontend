@@ -12,20 +12,20 @@ interface TransactionState {
     fetchTransactions: (params?: Record<string, any>) => Promise<void>;
     fetchRecurringTransactions: () => Promise<void>;
     getTransaction: (id: string) => Promise<Transaction>;
-    createTransaction: (transaction: {
+    createTransaction: (
       transaction: {
         type: "income" | "expense";
         amount: number;
         description: string;
-        date: Date;
+        date: string;
         category: string;
         account: string;
         tags?: string[] | undefined;
         notes?: string | undefined;
         isRecurring?: boolean | undefined;
         frequency?: "daily" | "weekly" | "monthly" | "yearly";
-      };
-    }) => Promise<void>;
+      }
+    ) => Promise<void>;
     updateTransaction: (id: string, updates: Partial<Transaction>) => Promise<void>;
     deleteTransaction: (id: string) => Promise<void>;
     createRecurringTransaction: (

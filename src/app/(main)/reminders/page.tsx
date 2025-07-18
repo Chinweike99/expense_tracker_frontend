@@ -85,7 +85,7 @@ export default function RemindersPage() {
         className="w-full"
       >
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Reminders & Alerts</h1>
+          <h1 className="text-2xl font-bold text-gray-700">Reminders & Alerts</h1>
           <div className="flex gap-2">
             <TabsList>
               <TabsTrigger value="reminders">Reminders</TabsTrigger>
@@ -145,7 +145,7 @@ export default function RemindersPage() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {debts.map((debt) => (
                 <DebtCard
-                  key={debt.id}
+                  key={debt._id}
                   debt={debt}
                   onEdit={(d) => {
                     setEditingItem(d);

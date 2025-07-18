@@ -147,7 +147,7 @@ export type BudgetPeriod = "weekly" | "monthly" | "quarterly" | "yearly";
 export type RolloverType = "none" | "full" | "partial";
 
 export interface Budget {
-  id: string;
+  _id: string;
   name: string;
   amount: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -175,7 +175,7 @@ export interface BudgetForecast {
 }
 
 export interface BudgetAlert {
-  id: string;
+  _id: string;
   budgetId: string;
   budgetName: string;
   type: "threshold" | "overspend";
@@ -187,10 +187,11 @@ export interface BudgetAlert {
 }
 
 export interface Reminder {
-  id: string;
+  _id: string;
   name: string;
   title: string;
   description?: string;
+  notes: string;
   amount?: number;
   dueDate: string;
   frequency?: "once" | "daily" | "weekly" | "monthly" | "yearly";
@@ -203,7 +204,7 @@ export interface Reminder {
 }
 
 export interface Debt {
-  id: string;
+  _id: string;
   name: string;
   initialAmount: number;
   currentAmount: number;
@@ -218,7 +219,7 @@ export interface Debt {
 }
 
 export interface DebtPayment {
-  id: string;
+  _id: string;
   debtId: string;
   amount: number;
   date: string;

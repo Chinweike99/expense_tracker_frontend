@@ -34,7 +34,7 @@ export function ReminderCard({ reminder, onEdit }: ReminderCardProps) {
   };
 
   const handleDelete = () => {
-    deleteReminder.mutate(reminder.id, {
+    deleteReminder.mutate(reminder._id, {
       onSuccess: () => {
         toast.error("Your reminder has been deleted successfully")
       },
@@ -54,8 +54,8 @@ export function ReminderCard({ reminder, onEdit }: ReminderCardProps) {
           ) : (
             <Bell className="h-4 w-4 text-yellow-500" />
           )}
-          <CardTitle className="text-sm font-medium">
-            {reminder.title}
+          <CardTitle className="text-sm font-medium text-gray-600">
+            {reminder.name}
           </CardTitle>
         </div>
         <DropdownMenu>
@@ -86,9 +86,9 @@ export function ReminderCard({ reminder, onEdit }: ReminderCardProps) {
       <CardContent>
         <div className="flex justify-between items-center">
           <div>
-            {reminder.description && (
-              <p className="text-sm text-muted-foreground">
-                {reminder.description}
+            {reminder.notes && (
+              <p className="text-xs text-muted-foreground">
+                Description: {reminder.notes}
               </p>
             )}
             {reminder.amount && (

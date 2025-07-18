@@ -67,7 +67,7 @@ export function ReminderForm({
     defaultValues: {
       name: initialData?.name || "",
       title: initialData?.title || "",
-      description: initialData?.description || "",
+      description: initialData?.notes || "",
       amount: initialData?.amount || undefined,
       dueDate: initialData?.dueDate ? new Date(initialData.dueDate) : new Date(),
       frequency: initialData?.frequency || "once",
@@ -257,7 +257,7 @@ export function ReminderForm({
                   <SelectContent>
                     {categories?.map((category) => (
                       <SelectItem key={category._id} value={category.name}>
-                        {category.type}
+                        {category.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
