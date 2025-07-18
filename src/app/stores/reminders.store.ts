@@ -3,25 +3,24 @@ import api from "../lib/api"
 import { Debt, DebtPayment, PayoffPlan, Reminder } from "@/@types/types"
 import { toast } from "react-toastify"
 
-export const useReminders = (params: {
-  type?: 'bill' | "payments" | "custom",
-  upcoming?: boolean
-}) => {
+export const useReminders = (p0: { upcoming: boolean; }) => {
   return useQuery({
     queryKey: ['reminders'],
     queryFn: async () => {
       const { data } = await api.get('/api/reminders');
-      console.log('Fetched reminders:', data); // Debug log
+      console.log('Fetched reminders:', data);
       const reminders = data?.reminders || [];
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return reminders.map((reminder: any) => ({
         ...reminder,
-        id: reminder._id || reminder.id
+        id: reminder._id || reminder.id,
       }));
     },
     staleTime: 0,
   });
-}
+  console.log(p0)
+};
+
 
 
 export const useCreateReminder = () => {
@@ -38,7 +37,7 @@ export const useCreateReminder = () => {
             // Invalidate and refetch reminders
             queryClient.invalidateQueries({ queryKey: ['reminders'] });
             
-            // Optionally, you can also manually update the cache
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             queryClient.setQueryData(['reminders'], (oldData: any) => {
                 if (oldData && Array.isArray(oldData)) {
                     const newReminder = {

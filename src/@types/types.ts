@@ -112,13 +112,13 @@ export type ReminderFrequency =
   | "yearly";
 export type NotificationMethod = "email" | "push" | "both";
 
-export type DebtType = "loan" | "credit_card" | "mortgage" | "personal";
-export type PaymentFrequency =
-  | "weekly"
-  | "bi-weekly"
-  | "monthly"
-  | "quarterly"
-  | "yearly";
+// export type DebtType = "loan" | "credit_card" | "mortgage" | "personal";
+// export type PaymentFrequency =
+//   | "weekly"
+//   | "bi-weekly"
+//   | "monthly"
+//   | "quarterly"
+//   | "yearly";
 
 export interface Currency {
   _id: string;
@@ -195,7 +195,7 @@ export interface Reminder {
   amount?: number;
   dueDate: string;
   frequency?: "once" | "daily" | "weekly" | "monthly" | "yearly";
-  type: "bill" | "payment" | "custom";
+  type: ReminderType;
   category?: string;
   accountId?: string;
   isCompleted: boolean;
@@ -203,19 +203,41 @@ export interface Reminder {
   updatedAt: string;
 }
 
+export type DebtType = "loan" | "credit-card" | "mortgage" | "personal";
+export type PaymentFrequency = "weekly" | "bi-weekly" | "monthly" | "yearly";
+
 export interface Debt {
   _id: string;
   name: string;
+  type: DebtType;
   initialAmount: number;
   currentAmount: number;
-  interestRate?: number;
-  minimumPayment?: number;
-  dueDate: string;
-  creditor?: string;
+  interestRate: number;
+  paymentFrequency: PaymentFrequency;
+  paymentAmount: number;
+  startDate: string;
+  endDate?: string;
+  lender: string;
   accountId?: string;
   isPaid: boolean;
+  notes?: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface CreateDebtRequest {
+  name: string;
+  type: DebtType;
+  initialAmount: number;
+  currentAmount: number;
+  interestRate: number;
+  paymentFrequency: PaymentFrequency;
+  paymentAmount: number;
+  startDate: string;
+  endDate?: string;
+  lender: string;
+  accountId?: string;
+  notes?: string;
 }
 
 export interface DebtPayment {
@@ -317,21 +339,18 @@ export interface ApiError {
   };
 }
 
-
-
 export type ConfettiOptions = {
-    angle?: number;
-    spread?: number;
-    startVelocity?: number;
-    decay?: number;
-    scalar?: number;
-    gravity?: number;
-    ticks?: number;
-    particleCount?: number;
-    origin?: { x?: number; y?: number };
-    zIndex?: number;
-    disableForReducedMotion?: boolean;
-    shapes?: string[];
-    colors?: string[];
-  };
-  
+  angle?: number;
+  spread?: number;
+  startVelocity?: number;
+  decay?: number;
+  scalar?: number;
+  gravity?: number;
+  ticks?: number;
+  particleCount?: number;
+  origin?: { x?: number; y?: number };
+  zIndex?: number;
+  disableForReducedMotion?: boolean;
+  shapes?: string[];
+  colors?: string[];
+};

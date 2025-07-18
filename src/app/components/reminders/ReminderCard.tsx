@@ -10,7 +10,10 @@ import {
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Reminder } from "@/@types/types";
-import { useDeleteReminder, useUpdateReminder } from "@/app/stores/reminders.store";
+import {
+  useDeleteReminder,
+  useUpdateReminder,
+} from "@/app/stores/reminders.store";
 import { toast } from "react-toastify";
 
 interface ReminderCardProps {
@@ -27,7 +30,7 @@ export function ReminderCard({ reminder, onEdit }: ReminderCardProps) {
       { ...reminder, isCompleted: true },
       {
         onSuccess: () => {
-          toast.success("Your reminder has been marked as completed")
+          toast.success("Your reminder has been marked as completed");
         },
       }
     );
@@ -36,12 +39,13 @@ export function ReminderCard({ reminder, onEdit }: ReminderCardProps) {
   const handleDelete = () => {
     deleteReminder.mutate(reminder._id, {
       onSuccess: () => {
-        toast.error("Your reminder has been deleted successfully")
+        toast.error("Your reminder has been deleted successfully");
       },
     });
   };
 
-  const isOverdue = new Date(reminder.dueDate) < new Date() && !reminder.isCompleted;
+  const isOverdue =
+    new Date(reminder.dueDate) < new Date() && !reminder.isCompleted;
 
   return (
     <Card className={isOverdue ? "border-red-500" : ""}>
@@ -70,7 +74,7 @@ export function ReminderCard({ reminder, onEdit }: ReminderCardProps) {
             </DropdownMenuItem>
             {!reminder.isCompleted && (
               <DropdownMenuItem onClick={handleComplete}>
-                Mark as Complete
+                {/* Mark as Complete */}
               </DropdownMenuItem>
             )}
             <DropdownMenuItem
@@ -99,7 +103,11 @@ export function ReminderCard({ reminder, onEdit }: ReminderCardProps) {
           </div>
           <div className="text-right">
             <p className="text-sm">
-              Due: {format(new Date(reminder.dueDate), "MMM dd, yyyy")}
+              {/* Due: {format(new Date(reminder.dueDate as string), "MMM dd, yyyy")} */}
+              Due:{" "}
+              {reminder.dueDate && !isNaN(Date.parse(reminder.dueDate))
+                ? format(new Date(reminder.dueDate), "MMM dd, yyyy")
+                : "No due date"}
             </p>
             <Badge variant="outline" className="mt-1">
               {reminder.type}

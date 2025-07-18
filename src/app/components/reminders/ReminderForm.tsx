@@ -41,7 +41,7 @@ const formSchema = z.object({
   amount: z.number().optional(),
   dueDate: z.date(),
   frequency: z.enum(["once", "daily", "weekly", "monthly", "yearly"]),
-  type: z.enum(["bill", "payment", "custom"]),
+  type: z.enum(["bill", "subscription", "debt", "custom"]),
   category: z.string().optional(),
   accountId: z.string().optional(),
 });
@@ -72,15 +72,15 @@ export function ReminderForm({
       dueDate: initialData?.dueDate ? new Date(initialData.dueDate) : new Date(),
       frequency: initialData?.frequency || "once",
       type: initialData?.type || "bill",
-      category: initialData?.category || undefined,
-      accountId: initialData?.accountId || undefined,
+      category: initialData?.category || "",
+      accountId: initialData?.accountId || "",
     },
   });
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-      <FormField
+        <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
@@ -137,7 +137,7 @@ export function ReminderForm({
                   min="0.01"
                   step="0.01"
                   placeholder="0.00"
-                  {...field}
+                  value={field.value || ""}
                   onChange={(e) =>
                     field.onChange(e.target.value ? parseFloat(e.target.value) : undefined)
                   }
@@ -155,7 +155,7 @@ export function ReminderForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Type</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a type" />
@@ -163,7 +163,8 @@ export function ReminderForm({
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="bill">Bill</SelectItem>
-                    <SelectItem value="payment">Payment</SelectItem>
+                    <SelectItem value="subscription">Subscription</SelectItem>
+                    <SelectItem value="debt">Debt</SelectItem>
                     <SelectItem value="custom">Custom</SelectItem>
                   </SelectContent>
                 </Select>
@@ -178,7 +179,7 @@ export function ReminderForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Frequency</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select frequency" />
@@ -247,7 +248,7 @@ export function ReminderForm({
                 <FormLabel>Category (Optional)</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -275,7 +276,7 @@ export function ReminderForm({
                 <FormLabel>Account (Optional)</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>

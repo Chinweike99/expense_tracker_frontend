@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,14 +12,20 @@ import {
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Debt, Reminder } from "@/@types/types";
-import { useCreateDebt, useCreateReminder, useDebts, useReminders, useUpdateDebts, useUpdateReminder } from "@/app/stores/reminders.store";
+import {
+  useCreateDebt,
+  useCreateReminder,
+  useDebts,
+  useReminders,
+  useUpdateDebts,
+  useUpdateReminder,
+} from "@/app/stores/reminders.store";
 import { ReminderCard } from "@/app/components/reminders/ReminderCard";
 import { DebtCard } from "@/app/components/reminders/DebtCard";
 import { ReminderForm } from "@/app/components/reminders/ReminderForm";
 import { DebtForm } from "@/app/components/reminders/DebtForm";
 import { PaymentDialog } from "@/app/components/reminders/PaymentDialog";
 import { PayoffPlanDialog } from "@/app/components/reminders/PayoffPlanDialog";
-
 
 export default function RemindersPage() {
   const [activeTab, setActiveTab] = useState("reminders");
@@ -56,7 +62,7 @@ export default function RemindersPage() {
       });
     }
   };
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmitDebt = (values: any) => {
     if (editingItem && "initialAmount" in editingItem) {
       updateDebt.mutate(
@@ -79,13 +85,11 @@ export default function RemindersPage() {
 
   return (
     <div className="space-y-6">
-      <Tabs
-        value={activeTab}
-        onValueChange={setActiveTab}
-        className="w-full"
-      >
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-700">Reminders & Alerts</h1>
+          <h1 className="text-2xl font-bold text-gray-700">
+            Reminders & Alerts
+          </h1>
           <div className="flex gap-2">
             <TabsList>
               <TabsTrigger value="reminders">Reminders</TabsTrigger>
@@ -114,9 +118,9 @@ export default function RemindersPage() {
           ) : reminders && reminders.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              {reminders.map((reminder: any) => (
+              {reminders.map((reminder: any, index: number) => (
                 <ReminderCard
-                  key={reminder.id}
+                  key={reminder._id || `reminder-${index}`}
                   reminder={reminder}
                   onEdit={(r) => {
                     setEditingItem(r);
@@ -128,7 +132,8 @@ export default function RemindersPage() {
           ) : (
             <div className="text-center py-12">
               <p className="text-muted-foreground">
-                You don&apos;t have any reminders yet. Create one to get started.
+                You don&apos;t have any reminders yet. Create one to get
+                started.
               </p>
             </div>
           )}
@@ -159,7 +164,8 @@ export default function RemindersPage() {
           ) : (
             <div className="text-center py-12">
               <p className="text-muted-foreground">
-                You don&apos;t have any debts tracked yet. Add one to get started.
+                You don&apos;t have any debts tracked yet. Add one to get
+                started.
               </p>
             </div>
           )}
@@ -172,13 +178,17 @@ export default function RemindersPage() {
             <DialogTitle>
               {editingItem
                 ? `Edit ${activeTab === "reminders" ? "Reminder" : "Debt"}`
-                : `Create New ${activeTab === "reminders" ? "Reminder" : "Debt"}`}
+                : `Create New ${
+                    activeTab === "reminders" ? "Reminder" : "Debt"
+                  }`}
             </DialogTitle>
           </DialogHeader>
           {activeTab === "reminders" ? (
             <ReminderForm
               initialData={
-                editingItem && "type" in editingItem ? editingItem : undefined
+                editingItem && "type" in editingItem
+                  ? (editingItem as Reminder)
+                  : undefined
               }
               onSubmit={handleSubmitReminder}
               onCancel={() => {
