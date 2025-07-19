@@ -67,7 +67,7 @@ export function Sidebar({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "w-[250px] border-r bg-background lg:flex flex-col bg-gradient-to-r from-[#f9ece0]  to-[#f9fafb]",
+        "w-[250px] border-r bg-background lg:flex flex-col",
         className
       )}
     >
