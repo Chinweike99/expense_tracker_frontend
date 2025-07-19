@@ -6,8 +6,6 @@ import { Menu } from "lucide-react";
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Sidebar } from "./sidebar";
@@ -23,9 +21,6 @@ export function MobileSidebar() {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="p-0">
-        <SheetHeader className="p-4 border-b">
-          <SheetTitle>Expense Tracker</SheetTitle>
-        </SheetHeader>
         <Sidebar className="w-full border-0" />
       </SheetContent>
     </Sheet>

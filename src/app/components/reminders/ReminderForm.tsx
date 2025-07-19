@@ -108,7 +108,7 @@ export function ReminderForm({
           )}
         />
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="description"
           render={({ field }) => (
@@ -123,7 +123,7 @@ export function ReminderForm({
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         <FormField
           control={form.control}
