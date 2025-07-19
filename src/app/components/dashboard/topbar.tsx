@@ -8,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useMediaQuery } from "@/app/hooks/use-media-query";
 import { useAuthStore } from "@/app/stores/auth.store";
 import { useRouter } from "next/navigation";
 
@@ -17,7 +16,6 @@ interface TopBarProps {
 }
 
 export function TopBar({ user }: TopBarProps) {
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const { logout } = useAuthStore();
     const navigate = useRouter();
   
