@@ -67,12 +67,12 @@ export function Sidebar({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "w-[250px] border-r bg-background lg:flex flex-col",
+        "w-[250px] border-r bg-background lg:flex flex-col bg-gradient-to-r from-[#f9ece0]  to-[#f9fafb]",
         className
       )}
     >
       <div className="p-4 border-b">
-        <h1 className="text-xl font-bold">ExpensePro</h1>
+        <h1 className="text-xl font-bold">XpensePro</h1>
       </div>
       <nav className="flex-1 p-4 space-y-1 ">
         {navItems.map((item) => (

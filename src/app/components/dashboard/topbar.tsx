@@ -8,8 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MobileSidebar } from "./mobileSidebar";
-import { useMediaQuery } from "@/app/hooks/use-media-query";
 import { useAuthStore } from "@/app/stores/auth.store";
 import { useRouter } from "next/navigation";
 
@@ -18,7 +16,6 @@ interface TopBarProps {
 }
 
 export function TopBar({ user }: TopBarProps) {
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const { logout } = useAuthStore();
     const navigate = useRouter();
   
@@ -30,7 +27,6 @@ export function TopBar({ user }: TopBarProps) {
   return (
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
       <div className="container flex items-center justify-between h-16">
-        {!isDesktop && <MobileSidebar />}
         <div className="flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger>
